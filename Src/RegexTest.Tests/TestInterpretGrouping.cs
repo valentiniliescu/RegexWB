@@ -1,12 +1,12 @@
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
 	/// <summary>
 	/// Summary description for TestInterpretAnchor.
 	/// </summary>
-	[TestFixture]
+	[TestClass]
 	public class TestInterpretGrouping
 	{
 		public TestInterpretGrouping()
@@ -21,28 +21,28 @@ namespace RegexTest
 			return output;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCapture()
 		{
 			string output = Interpret("(abc)");
 			Assert.AreEqual("Capture\r\n  abc\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNamedCapture()
 		{
 			string output = Interpret("(?<L>abc)");
 			Assert.AreEqual("Capture to <L>\r\n  abc\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNonCapture()
 		{
 			string output = Interpret("(?:abc)");
 			Assert.AreEqual("Non-capturing Group\r\n  abc\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestAlternation()
 		{
 			string output = Interpret("(a|b)");
@@ -51,28 +51,28 @@ namespace RegexTest
 
 			// lookahead/lookbehind
 
-		[Test]
+		[TestMethod]
 		public void TestPositiveLookahead()
 		{
 			string output = Interpret("(?=a)");
 			Assert.AreEqual("zero-width positive lookahead\r\n  a\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNegativeLookahead()
 		{
 			string output = Interpret("(?!b)");
 			Assert.AreEqual("zero-width negative lookahead\r\n  b\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPositiveLookbehind()
 		{
 			string output = Interpret("(?<=c)");
 			Assert.AreEqual("zero-width positive lookbehind\r\n  c\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNegativeLookbehind()
 		{
 			string output = Interpret("(?<!d)");
@@ -80,14 +80,14 @@ namespace RegexTest
 		}
 
 			// Conditionals
-		[Test]
+		[TestMethod]
 		public void TestConditionalExpression()
 		{
 			string output = Interpret("(?(abc)yes|no)");
 			Assert.AreEqual("Conditional Subexpression\r\n  if: abc\r\n  match: yes\r\n  else match: no\r\nEnd Capture\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestConditionalNamed()
 		{
 			string output = Interpret("(?(<V>)yes|no)");

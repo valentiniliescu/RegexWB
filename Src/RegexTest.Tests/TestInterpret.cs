@@ -11,14 +11,14 @@
 
 
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
 	/// <summary>
 	/// Summary description for TestInterpret.
 	/// </summary>
-	[TestFixture]
+	[TestClass]
 	public class TestInterpret
 	{
 		public TestInterpret()
@@ -36,7 +36,7 @@ namespace RegexTest
 			return output;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNormalChars()
 		{
 			string output = Interpret("Test");
@@ -44,7 +44,7 @@ namespace RegexTest
 		}
 
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterShortcuts()
 		{
 			string output = Interpret(@"\a");
@@ -78,42 +78,42 @@ namespace RegexTest
 			Assert.AreEqual("Unicode 1234\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterGroup()
 		{
 			string output = Interpret("[abcdef]");
 			Assert.AreEqual("Any character in \"abcdef\"\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterGroupNegated()
 		{
 			string output = Interpret("[^abcdef]");
 			Assert.AreEqual("Any character not in \"abcdef\"\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterPeriod()
 		{
 			string output = Interpret(".");
 			Assert.AreEqual(". (any character)\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterWord()
 		{
 			string output = Interpret(@"\w");
 			Assert.AreEqual("Any word character \r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCharacterNonWord()
 		{
 			string output = Interpret(@"\W");
 			Assert.AreEqual("Any non-word character \r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestCharacterWhitespace()
 		{
 			string output = Interpret(@"\s");
@@ -121,105 +121,105 @@ namespace RegexTest
 		}
 
 		
-		[Test]
+		[TestMethod]
 		public void TestCharacterNonWhitespace()
 		{
 			string output = Interpret(@"\S");
 			Assert.AreEqual("Any non-whitespace character \r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestCharacterDigit()
 		{
 			string output = Interpret(@"\d");
 			Assert.AreEqual("Any digit \r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestCharacterNonDigit()
 		{
 			string output = Interpret(@"\D");
 			Assert.AreEqual("Any non-digit \r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestQuantifierPlus()
 		{
 			string output = Interpret(@"+");
 			Assert.AreEqual("+ (one or more times)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierStar()
 		{
 			string output = Interpret(@"*");
 			Assert.AreEqual("* (zero or more times)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierQuestion()
 		{
 			string output = Interpret(@"?");
 			Assert.AreEqual("? (zero or one time)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierFromNToM()
 		{
 			string output = Interpret(@"{1,2}");
 			Assert.AreEqual("At least 1, but not more than 2 times\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierAtLeastN()
 		{
 			string output = Interpret(@"{5,}");
 			Assert.AreEqual("At least 5 times\r\n", output);
 		}		
 
-		[Test]
+		[TestMethod]
 		public void TestQuantifierExactlyN()
 		{
 			string output = Interpret(@"{12}");
 			Assert.AreEqual("Exactly 12 times\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestQuantifierPlusNonGreedy()
 		{
 			string output = Interpret(@"+?");
 			Assert.AreEqual("+ (one or more times) (non-greedy)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierStarNonGreedy()
 		{
 			string output = Interpret(@"*?");
 			Assert.AreEqual("* (zero or more times) (non-greedy)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierQuestionNonGreedy()
 		{
 			string output = Interpret(@"??");
 			Assert.AreEqual("? (zero or one time) (non-greedy)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierFromNToMNonGreedy()
 		{
 			string output = Interpret(@"{1,2}?");
 			Assert.AreEqual("At least 1, but not more than 2 times (non-greedy)\r\n", output);
 		}
 		
-		[Test]
+		[TestMethod]
 		public void TestQuantifierAtLeastNNonGreedy()
 		{
 			string output = Interpret(@"{5,}?");
 			Assert.AreEqual("At least 5 times (non-greedy)\r\n", output);
 		}		
 
-		[Test]
+		[TestMethod]
 		public void TestQuantifierExactlyNNonGreedy()
 		{
 			string output = Interpret(@"{12}?");

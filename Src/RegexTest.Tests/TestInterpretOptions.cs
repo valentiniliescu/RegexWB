@@ -1,12 +1,12 @@
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
 	/// <summary>
 	/// Summary description for TestInterpretOptions
 	/// </summary>
-	[TestFixture]
+	[TestClass]
 	public class TestInterpretOptions
 	{
 		public TestInterpretOptions()
@@ -21,7 +21,7 @@ namespace RegexTest
 			return output;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestIgnoreCase()
 		{
 			string output = Interpret("(?i:)");

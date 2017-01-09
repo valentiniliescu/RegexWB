@@ -1,12 +1,12 @@
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
 	/// <summary>
 	/// Summary description for TestInterpretAnchor.
 	/// </summary>
-	[TestFixture]
+	[TestClass]
 	public class TestInterpretAnchor
 	{
 		public TestInterpretAnchor()
@@ -21,35 +21,35 @@ namespace RegexTest
 			return output;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBegOfString()
 		{
 			string output = Interpret("^");
 			Assert.AreEqual("^ (anchor to start of string)\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBegOfStringMultiline()
 		{
 			string output = Interpret("\\A");
 			Assert.AreEqual("Anchor to start of string (ignore multiline)\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestEndOfString()
 		{
 			string output = Interpret("$");
 			Assert.AreEqual("$ (anchor to end of string)\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestEndOfStringMultiline()
 		{
 			string output = Interpret("\\Z");
 			Assert.AreEqual("Anchor to end of string or before \\n (ignore multiline)\r\n", output);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestEndOfStringMultiline2()
 		{
 			string output = Interpret("\\z");
