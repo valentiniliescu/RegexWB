@@ -1,18 +1,10 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for TestInterpretAnchor.
-	/// </summary>
 	[TestClass]
 	public class TestInterpretGrouping
 	{
-		public TestInterpretGrouping()
-		{
-		}
-
 		string Interpret(string regex)
 		{
 			RegexBuffer buffer = new RegexBuffer(regex);
@@ -49,8 +41,6 @@ namespace RegexTest
 			Assert.AreEqual("Capture\r\n  a\r\n    or\r\n  b\r\nEnd Capture\r\n", output);
 		}
 
-			// lookahead/lookbehind
-
 		[TestMethod]
 		public void TestPositiveLookahead()
 		{
@@ -79,7 +69,6 @@ namespace RegexTest
 			Assert.AreEqual("zero-width negative lookbehind\r\n  d\r\nEnd Capture\r\n", output);
 		}
 
-			// Conditionals
 		[TestMethod]
 		public void TestConditionalExpression()
 		{
@@ -95,19 +84,3 @@ namespace RegexTest
 		}
 	}
 }
-
-#if fred
-
-= "Ignore Case - (?i)";
-= "Ignore Case off - (?-i)";
-= "Multline - (?m)";
-= "Multiline off - (?-m)";
-= "Explicit Capture - (?c)";
-= "Explicit Capture off - (?-c)";
-= "Singleline - (?s)";
-= "Singleline off - (?-s)";
-= "Ignore Whitespace - (?x)";
-= "Ignore Whitespace off - (?-x)";
-
-
-#endif

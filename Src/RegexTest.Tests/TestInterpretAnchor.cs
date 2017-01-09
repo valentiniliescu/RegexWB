@@ -1,19 +1,11 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for TestInterpretAnchor.
-	/// </summary>
 	[TestClass]
 	public class TestInterpretAnchor
 	{
-		public TestInterpretAnchor()
-		{
-		}
-
-		string Interpret(string regex)
+	    string Interpret(string regex)
 		{
 			RegexBuffer buffer = new RegexBuffer(regex);
 			RegexExpression expression = new RegexExpression(buffer);
@@ -56,12 +48,15 @@ namespace RegexTest
 			Assert.AreEqual("Anchor to end of string (ignore multiline)\r\n", output);
 		}
 
-		public void TestWordBoundary()
+        [TestMethod]
+        public void TestWordBoundary()
 		{
 			string output = Interpret("\\b");
 			Assert.AreEqual("Word boundary between //w and //W\r\n", output);
 		}
-		public void TestNonWordBoundary()
+
+        [TestMethod]
+        public void TestNonWordBoundary()
 		{
 			string output = Interpret("\\B");
 			Assert.AreEqual("Not at a word boundary between //w and //W\r\n", output);
@@ -69,33 +64,3 @@ namespace RegexTest
 
 	}
 }
-
-#if fred
-
-= "Grouping";
-= "Capture - (<exp>)";
-= "Named capture - (?<<name>>x)";
-= "Non-capture - (?:<exp>)";
-= "Alternation - (<x>|<y>)";
-= "Zero-Width";
-= "Positive Lookahead - (?=<x>)";
-= "Negative Lookahead - (?!<x>)";
-= "Positive Lookbehind - (?<=<x>)";
-= "Negative Lookbehind - (?<!<x>)";
-= "Conditionals";
-= "Expression - (?(<exp>)yes|no)";
-= "Named - (?(<name>)yes|no)";
-= "Options";
-= "Ignore Case - (?i)";
-= "Ignore Case off - (?-i)";
-= "Multline - (?m)";
-= "Multiline off - (?-m)";
-= "Explicit Capture - (?c)";
-= "Explicit Capture off - (?-c)";
-= "Singleline - (?s)";
-= "Singleline off - (?-s)";
-= "Ignore Whitespace - (?x)";
-= "Ignore Whitespace off - (?-x)";
-
-
-#endif

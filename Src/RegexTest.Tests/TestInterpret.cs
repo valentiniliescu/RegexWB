@@ -1,33 +1,10 @@
-
-#region Change History
-
-// DATE------  CHANGED BY---  CHANGEID#  DESCRIPTION---------------------------
-// 2015-05-17  M. Lansdaal    n/a        Initial version.
-// 2015-06-13  M. Lansdaal    n/a        PlayerInfo deprecated. Replaced by PerformanceInfo
-//
-
-#endregion
-
-
-
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for TestInterpret.
-	/// </summary>
 	[TestClass]
 	public class TestInterpret
 	{
-		public TestInterpret()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		string Interpret(string regex)
 		{
 			RegexBuffer buffer = new RegexBuffer(regex);
@@ -227,41 +204,3 @@ namespace RegexTest
 		}
 	}
 }
-
-#if fred
-
-
-= "Beginning of string - ^";
-= "Beginning, multiline - \\A";
-= "End of string - $";
-= "End, multiline - \\Z";
-= "End, multiline -  \\z";
-= "Word boundary - \\b";
-= "Non-word boundary - \\B";
-= "Grouping";
-= "Capture - (<exp>)";
-= "Named capture - (?<<name>>x)";
-= "Non-capture - (?:<exp>)";
-= "Alternation - (<x>|<y>)";
-= "Zero-Width";
-= "Positive Lookahead - (?=<x>)";
-= "Negative Lookahead - (?!<x>)";
-= "Positive Lookbehind - (?<=<x>)";
-= "Negative Lookbehind - (?<!<x>)";
-= "Conditionals";
-= "Expression - (?(<exp>)yes|no)";
-= "Named - (?(<name>)yes|no)";
-= "Options";
-= "Ignore Case - (?i)";
-= "Ignore Case off - (?-i)";
-= "Multline - (?m)";
-= "Multiline off - (?-m)";
-= "Explicit Capture - (?c)";
-= "Explicit Capture off - (?-c)";
-= "Singleline - (?s)";
-= "Singleline off - (?-s)";
-= "Ignore Whitespace - (?x)";
-= "Ignore Whitespace off - (?-x)";
-
-
-#endif
