@@ -90,11 +90,7 @@ namespace RegexTest
 
 		public string WindowText
 		{
-			get
-			{
-				return this.textBox1.Text;
-			}
-			set
+		    set
 			{
 				
 				this.textBox1.Text = value;

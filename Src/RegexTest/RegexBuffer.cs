@@ -66,12 +66,7 @@ namespace RegexTest
 			}
 		}
 
-		public RegexBuffer Substring(int start, int end)
-		{
-			return new RegexBuffer(expression.Substring(start, end - start + 1));
-		}
-
-		public int ErrorLocation
+	    public int ErrorLocation
 		{
 			get
 			{
@@ -97,11 +92,7 @@ namespace RegexTest
 
 		public RegexOptions RegexOptions
 		{
-			get
-			{
-				return regexOptions;
-			}
-			set
+		    set
 			{
 				regexOptions = value;
 			}

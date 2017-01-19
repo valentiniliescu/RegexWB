@@ -58,15 +58,7 @@ namespace RegexTest
 			}
 		}
 
-		public int End
-		{
-			get
-			{
-				return end;
-			}
-		}
-
-		public int Length
+	    public int Length
 		{
 			get
 			{

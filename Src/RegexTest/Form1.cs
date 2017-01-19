@@ -115,8 +115,7 @@ namespace RegexTest
 
 		int regexInsertionPoint = -1;
 		RegexBuffer buffer = null;
-		MouseEventArgs lastLocation;
-		SizeF characterSize;
+	    SizeF characterSize;
 		private System.Windows.Forms.CheckBox HoverInterpret;
 		private System.Windows.Forms.MainMenu mainMenu1;
 		private System.Windows.Forms.MenuItem menuItem70;
@@ -1505,9 +1504,8 @@ namespace RegexTest
 				while (m.Success)
 				{
 					noMatch = false;
-					GroupCollection groups = m.Groups;
-					
-					int groupNumber = 0;
+
+				    int groupNumber = 0;
 					foreach (Group group in m.Groups)
 					{
 						foreach (Capture capture in group.Captures)
@@ -1586,9 +1584,8 @@ namespace RegexTest
 						ReplaceString.Text = settings.ReplaceString;
 						HideGroupZero.Checked = settings.HideGroupZero;
 					}
-					catch (Exception e)
+					catch (Exception)
 					{
-						string s = e.ToString();
 					}
 				}
 			}
@@ -1615,23 +1612,8 @@ namespace RegexTest
 		}
 
 		// Go from commented regex version to non-commented version
-		private string RemoveWhitespace(string regexString)
-		{
-			if (!this.IgnoreWhitespace.Checked)
-				return regexString;
 
-				// first, get rid of all comments...
-			Regex removeComments = new Regex(@"\#.+");
-			regexString = removeComments.Replace(regexString, "");
-			
-				// remove un-escaped whitespace...
-			Regex removeWhitespace = new Regex(@"(?<!\\)[ \t\n]");
-			regexString = removeWhitespace.Replace(regexString, "");
-			regexString = regexString.Replace("\r", "");
-			return regexString;
-		}
-
-		private void Interpret_Click(object sender, System.EventArgs e)
+	    private void Interpret_Click(object sender, System.EventArgs e)
 		{
 			SaveValues();
 
@@ -1782,12 +1764,7 @@ namespace RegexTest
 			}
 		}
 
-		private void CopyCSharp_Click(object sender, System.EventArgs e)
-		{
-
-		}
-
-		string MakeCSharpString()
+	    string MakeCSharpString()
 		{
 			string s =
 				"Regex regex = new Regex(@\"\r\n" +
@@ -1946,12 +1923,7 @@ Regex r = new Regex(
 			}
 		}
 
-		private void CopyVB_Click(object sender, System.EventArgs e)
-		{
-
-		}
-
-		string MakeVBString()
+	    string MakeVBString()
 		{
 #if fred
    Dim r As Regex
@@ -2003,13 +1975,7 @@ Regex r = new Regex(
 		}
 
 
-		private void about_Click(object sender, System.EventArgs e)
-		{
-			About about = new About();
-			about.ShowDialog();
-		}
-
-		private void UpdateBuffer()
+	    private void UpdateBuffer()
 		{
 			if (bufferDirty)
 			{
@@ -2019,12 +1985,7 @@ Regex r = new Regex(
 			}
 		}
 
-		private void RegexText_TextChanged(object sender, System.EventArgs e)
-		{
-			bufferDirty = true;
-		}
-
-		private RegexTest.HoverDetailAction RegexText_HoverDetail(object sender, RegexTest.HoverEventArgs args)
+	    private RegexTest.HoverDetailAction RegexText_HoverDetail(object sender, RegexTest.HoverEventArgs args)
 		{
 			HoverDetailAction action = null;
 			if (!HoverInterpret.Checked)
@@ -2033,7 +1994,7 @@ Regex r = new Regex(
 			UpdateBuffer();
 			try
 			{
-				RegexExpression exp = new RegexExpression(buffer);
+				new RegexExpression(buffer);
 			}
 			catch (Exception e)
 			{
@@ -2243,12 +2204,7 @@ Regex r = new Regex(
 			RegexText.SelectAll();
 		}
 
-		private void addElement_Click(object sender, System.EventArgs e)
-		{
-			
-		}
-
-		private void MatchEvaluator_CheckedChanged(object sender, System.EventArgs e)
+	    private void MatchEvaluator_CheckedChanged(object sender, System.EventArgs e)
 		{
 			if (MatchEvaluator.Checked)
 			{

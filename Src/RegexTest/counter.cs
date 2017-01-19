@@ -21,12 +21,7 @@ namespace Timing
 			elapsedCount += (stopCount - startCount);
 		}
 
-		public void Clear()
-		{
-			elapsedCount = 0;
-		}
-
-		public float Seconds
+	    public float Seconds
 		{
 			get
 			{
@@ -41,26 +36,7 @@ namespace Timing
 			return String.Format("{0} seconds", Seconds);
 		}
 
-		static long Frequency 
-		{
-			get 
-			{
-				long freq = 0;
-				QueryPerformanceFrequency(ref freq);
-				return freq;
-			}
-		}
-		static long Value 
-		{
-			get 
-			{
-				long count = 0;
-				QueryPerformanceCounter(ref count);
-				return count;
-			}
-		}
-
-		[System.Runtime.InteropServices.DllImport("KERNEL32")]
+	    [System.Runtime.InteropServices.DllImport("KERNEL32")]
 		private static extern bool QueryPerformanceCounter(  ref long lpPerformanceCount);
 
 		[System.Runtime.InteropServices.DllImport("KERNEL32")]

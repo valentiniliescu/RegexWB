@@ -12,13 +12,7 @@ namespace RegexTest
 		string character;
 		bool special;
 
-			// used to coalesce single-character items together
-		public RegexCharacter(string characters)
-		{
-			this.character = characters;
-		}
-
-		public RegexCharacter(RegexBuffer buffer)
+	    public RegexCharacter(RegexBuffer buffer)
 		{
 			int startLoc = buffer.Offset;
 			bool quantifier = false;
