@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -8,7 +9,6 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Timing;
 
 namespace RegexTest
 {
@@ -1446,14 +1446,14 @@ namespace RegexTest
 		{
 			SaveValues();
 
-			Regex regex;
-			try
+		    Regex regex;
+		    try
 			{
-				Counter counter = new Counter();
-				counter.Start();
-				regex = CreateRegex();
-				counter.Stop();
-				CompileTime.Text = counter.Seconds.ToString();
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+			    regex = CreateRegex();
+			    stopwatch.Stop();
+			    CompileTime.Text = stopwatch.Elapsed.TotalSeconds.ToString();
 			}
 			catch (Exception ex)
 			{
@@ -1483,9 +1483,9 @@ namespace RegexTest
 
 				Elapsed.Text = "";
 				int iterations = Convert.ToInt32(Iterations.Text);
-				Counter counter = new Counter();
-				counter.Start();
-				Match m;
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+			    Match m;
 				for (int i = 0; i < iterations; i++)
 				{
 					m = regex.Match(s);
@@ -1494,8 +1494,8 @@ namespace RegexTest
 						m = m.NextMatch();
 					}
 				}
-				counter.Stop();
-				Elapsed.Text = String.Format("{0:f2}", counter.Seconds);
+			    stopwatch.Stop();
+			    Elapsed.Text = String.Format("{0:f2}", stopwatch.Elapsed.TotalSeconds);
 
 				m = regex.Match(s);
 				bool noMatch = true;
