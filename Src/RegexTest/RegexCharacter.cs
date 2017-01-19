@@ -1,190 +1,184 @@
-using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for Class1.
-	/// </summary>
-	public class RegexCharacter: RegexItem
-	{
-		string character;
-		bool special;
+    /// <summary>
+    ///     Summary description for Class1.
+    /// </summary>
+    public class RegexCharacter : RegexItem
+    {
+        private string _character;
 
-	    public RegexCharacter(RegexBuffer buffer)
-		{
-			int startLoc = buffer.Offset;
-			bool quantifier = false;
+        public RegexCharacter(RegexBuffer buffer)
+        {
+            var startLoc = buffer.Offset;
+            var quantifier = false;
 
-			switch (buffer.Current)
-			{
-				case '.':
-					character = ". (any character)";
-					buffer.MoveNext();
-					special = true;
-					break;
+            switch (buffer.Current)
+            {
+                case '.':
+                    _character = ". (any character)";
+                    buffer.MoveNext();
+                    Special = true;
+                    break;
 
-				case '+':
-					character = "+ (one or more times)";
-					buffer.MoveNext();
-					special = true;
-					quantifier = true;
-					break;
+                case '+':
+                    _character = "+ (one or more times)";
+                    buffer.MoveNext();
+                    Special = true;
+                    quantifier = true;
+                    break;
 
-				case '*':
-					character = "* (zero or more times)";
-					buffer.MoveNext();
-					special = true;
-					quantifier = true;
-					break;
+                case '*':
+                    _character = "* (zero or more times)";
+                    buffer.MoveNext();
+                    Special = true;
+                    quantifier = true;
+                    break;
 
-				case '?':
-					character = "? (zero or one time)";
-					buffer.MoveNext();
-					special = true;
-					quantifier = true;
-					break;
+                case '?':
+                    _character = "? (zero or one time)";
+                    buffer.MoveNext();
+                    Special = true;
+                    quantifier = true;
+                    break;
 
-				case '^':
-					character = "^ (anchor to start of string)";
-					buffer.MoveNext();
-					break;
+                case '^':
+                    _character = "^ (anchor to start of string)";
+                    buffer.MoveNext();
+                    break;
 
-				case '$':
-					character = "$ (anchor to end of string)";
-					buffer.MoveNext();
-					break;
+                case '$':
+                    _character = "$ (anchor to end of string)";
+                    buffer.MoveNext();
+                    break;
 
-				case ' ':
-					character = "' ' (space)";
-					buffer.MoveNext();
-					break;
+                case ' ':
+                    _character = "' ' (space)";
+                    buffer.MoveNext();
+                    break;
 
-				case '\\':
-					DecodeEscape(buffer);
-					break;
+                case '\\':
+                    DecodeEscape(buffer);
+                    break;
 
-				default:
-					character = buffer.Current.ToString();
-					buffer.MoveNext();
-					special = false;
-					break;
-			}
-			if (quantifier)
-			{
-				if (!buffer.AtEnd && buffer.Current == '?')
-				{
-					character += " (non-greedy)";
-					buffer.MoveNext();
-				}
-			}
-			buffer.AddLookup(this, startLoc, buffer.Offset - 1, (character.Length == 1));
-		}
+                default:
+                    _character = buffer.Current.ToString();
+                    buffer.MoveNext();
+                    Special = false;
+                    break;
+            }
+            if (quantifier)
+                if (!buffer.AtEnd && buffer.Current == '?')
+                {
+                    _character += " (non-greedy)";
+                    buffer.MoveNext();
+                }
+            buffer.AddLookup(this, startLoc, buffer.Offset - 1, _character.Length == 1);
+        }
 
-		static Hashtable escaped = new Hashtable();
-		static RegexCharacter()
-		{
-				// character escapes
-			escaped.Add('a', @"A bell (alarm) \u0007 ");
-			escaped.Add('b', @"Word boundary between //w and //W");
-			escaped.Add('B', @"Not at a word boundary between //w and //W");
-			escaped.Add('t', @"A tab \u0009 ");
-			escaped.Add('r', @"A carriage return \u000D ");
-			escaped.Add('v', @"A vertical tab \u000B ");
-			escaped.Add('f', @"A form feed \u000C ");
-			escaped.Add('n', @"A new line \u000A ");
-			escaped.Add('e', @"An escape \u001B ");
+        private static readonly Hashtable Escaped = new Hashtable();
 
-				// character classes
-			escaped.Add('w', "Any word character ");
-			escaped.Add('W', "Any non-word character ");
-			escaped.Add('s', "Any whitespace character ");
-			escaped.Add('S', "Any non-whitespace character ");
-			escaped.Add('d', "Any digit ");
-			escaped.Add('D', "Any non-digit ");
+        static RegexCharacter()
+        {
+            // character escapes
+            Escaped.Add('a', @"A bell (alarm) \u0007 ");
+            Escaped.Add('b', @"Word boundary between //w and //W");
+            Escaped.Add('B', @"Not at a word boundary between //w and //W");
+            Escaped.Add('t', @"A tab \u0009 ");
+            Escaped.Add('r', @"A carriage return \u000D ");
+            Escaped.Add('v', @"A vertical tab \u000B ");
+            Escaped.Add('f', @"A form feed \u000C ");
+            Escaped.Add('n', @"A new line \u000A ");
+            Escaped.Add('e', @"An escape \u001B ");
 
-				// anchors
-			escaped.Add('A', "Anchor to start of string (ignore multiline)");
-			escaped.Add('Z', "Anchor to end of string or before \\n (ignore multiline)");
-			escaped.Add('z', "Anchor to end of string (ignore multiline)");
-		}
+            // character classes
+            Escaped.Add('w', "Any word character ");
+            Escaped.Add('W', "Any non-word character ");
+            Escaped.Add('s', "Any whitespace character ");
+            Escaped.Add('S', "Any non-whitespace character ");
+            Escaped.Add('d', "Any digit ");
+            Escaped.Add('D', "Any non-digit ");
 
-		void DecodeEscape(RegexBuffer buffer)
-		{
-			buffer.MoveNext();
+            // anchors
+            Escaped.Add('A', "Anchor to start of string (ignore multiline)");
+            Escaped.Add('Z', "Anchor to end of string or before \\n (ignore multiline)");
+            Escaped.Add('z', "Anchor to end of string (ignore multiline)");
+        }
 
-			character = (string) escaped[buffer.Current];
-			if (character == null)
-			{
-				bool decoded;
+        private void DecodeEscape(RegexBuffer buffer)
+        {
+            buffer.MoveNext();
 
-				decoded = CheckBackReference(buffer);
+            _character = (string) Escaped[buffer.Current];
+            if (_character == null)
+            {
+                bool decoded;
 
-				if (!decoded)
-				{
-						// TODO: Handle other items below:
-					switch (buffer.Current)
-					{
-						case 'u':
-							buffer.MoveNext();
-							string unicode = buffer.String.Substring(0, 4);
-							character = "Unicode " + unicode;
-							buffer.Offset += 4;
-							break;
+                decoded = CheckBackReference(buffer);
 
-						case ' ':
-							character = "' ' (space)";
-							special = false;
-							buffer.MoveNext();
-							break;
+                if (!decoded)
+                    switch (buffer.Current)
+                    {
+                        case 'u':
+                            buffer.MoveNext();
+                            var unicode = buffer.String.Substring(0, 4);
+                            _character = "Unicode " + unicode;
+                            buffer.Offset += 4;
+                            break;
 
-						case 'c':
-							buffer.MoveNext();
-							character = "CTRL-" + buffer.Current;
-							buffer.MoveNext();
-							break;
+                        case ' ':
+                            _character = "' ' (space)";
+                            Special = false;
+                            buffer.MoveNext();
+                            break;
 
-						case 'x':
-							buffer.MoveNext();
-							string number = buffer.String.Substring(0, 2);
-							character = "Hex " + number;
-							buffer.Offset += 2;
-							break;
+                        case 'c':
+                            buffer.MoveNext();
+                            _character = "CTRL-" + buffer.Current;
+                            buffer.MoveNext();
+                            break;
 
-						default:
-							character = new String(buffer.Current, 1);
-							special = false;
-							buffer.MoveNext();
-							break;
-					}
-				}
-			}
-			else
-			{
-				special = true;
-				buffer.MoveNext();
-			}
-		}
+                        case 'x':
+                            buffer.MoveNext();
+                            var number = buffer.String.Substring(0, 2);
+                            _character = "Hex " + number;
+                            buffer.Offset += 2;
+                            break;
 
-		bool CheckBackReference(RegexBuffer buffer)
-		{
-				// look for \k<name>
-			Regex regex = new Regex(@"
+                        default:
+                            _character = new string(buffer.Current, 1);
+                            Special = false;
+                            buffer.MoveNext();
+                            break;
+                    }
+            }
+            else
+            {
+                Special = true;
+                buffer.MoveNext();
+            }
+        }
+
+        private bool CheckBackReference(RegexBuffer buffer)
+        {
+            // look for \k<name>
+            var regex = new Regex(@"
 						k\<(?<Name>.+?)\>
 						",
-				RegexOptions.IgnorePatternWhitespace);
+                RegexOptions.IgnorePatternWhitespace);
 
-			Match match = regex.Match(buffer.String);
-			if (match.Success)
-			{
-				special = true;
-				this.character = String.Format("Backreference to match: {0}", match.Groups["Name"]);
-				buffer.Offset += match.Groups[0].Length;
-				return true;
-			}
-			return false;
-		}
+            var match = regex.Match(buffer.String);
+            if (match.Success)
+            {
+                Special = true;
+                _character = string.Format("Backreference to match: {0}", match.Groups["Name"]);
+                buffer.Offset += match.Groups[0].Length;
+                return true;
+            }
+            return false;
+        }
 
 #if fred
 \040 An ASCII character as octal (up to three digits); numbers with no leading zero are backreferences if they have only one digit or if they correspond to a capturing group number. (See Backreferences.) The character \040 represents a space. 
@@ -195,19 +189,12 @@ namespace RegexTest
 
 #endif
 
-		public override string ToString(int offset)
-		{
-			return character;
-		}
+        public override string ToString(int offset)
+        {
+            return _character;
+        }
 
-			// true if not a normal character...
-		public bool Special
-		{
-			get
-			{
-				return special;
-			}
-		}
-
-	}
+        // true if not a normal character...
+        public bool Special { get; private set; }
+    }
 }

@@ -3,25 +3,17 @@ using System.Windows.Forms;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for LibraryMenuItem.
-	/// </summary>
-	public class LibraryMenuItem: MenuItem
-	{
-		string filename;
+    /// <summary>
+    ///     Summary description for LibraryMenuItem.
+    /// </summary>
+    public class LibraryMenuItem : MenuItem
+    {
+        public LibraryMenuItem(string filename, string text, EventHandler handler) :
+            base(text, handler)
+        {
+            Filename = filename;
+        }
 
-		public LibraryMenuItem(string filename, string text, EventHandler handler):
-				base(text, handler)
-		{
-			this.filename = filename;
-		}
-
-		public string Filename
-		{
-			get
-			{
-				return filename;
-			}
-		}	
-	}
+        public string Filename { get; }
+    }
 }

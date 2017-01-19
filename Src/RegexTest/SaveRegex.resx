@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
             Microsoft ResX Schema 
@@ -96,7 +96,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="filename.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="Filename.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Public</value>
   </data>
   <data name="$this.Name">

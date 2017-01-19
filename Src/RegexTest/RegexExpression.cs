@@ -1,139 +1,115 @@
-using System;
+using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Collections;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for RegexExpression.
-	/// </summary>
-	public class RegexExpression: RegexItem
-	{
-		ArrayList	items = new ArrayList();
+    /// <summary>
+    ///     Summary description for RegexExpression.
+    /// </summary>
+    public class RegexExpression : RegexItem
+    {
+        public RegexExpression(RegexBuffer buffer)
+        {
+            Parse(buffer);
+        }
 
-		public RegexExpression(RegexBuffer buffer)
-		{
-			Parse(buffer);
-		}
-	
-		public ArrayList Items
-		{
-			get
-			{
-				return items;
-			}
-		}
+        public ArrayList Items { get; } = new ArrayList();
 
-		public override string ToString(int indent)
-		{
-			StringBuilder buf = new StringBuilder();
-			StringBuilder bufChar = new StringBuilder();
+        public override string ToString(int indent)
+        {
+            var buf = new StringBuilder();
+            var bufChar = new StringBuilder();
 
-			foreach (RegexItem item in items)
-			{
-				RegexCharacter regexChar = item as RegexCharacter;
-				if (regexChar != null && !regexChar.Special)
-				{
-					bufChar.Append(regexChar.ToString(indent));
-				}
-				else
-				{
-					// add any buffered chars...
-					if (bufChar.Length != 0)
-					{
-						buf.Append(new String(' ', indent));
-						buf.Append(bufChar + "\r\n");
-						bufChar = new StringBuilder();
-					}
-					buf.Append(new String(' ', indent));
-					string itemString = item.ToString(indent);
-					if (itemString.Length != 0)
-					{
-						buf.Append(itemString);
-						Regex newLineAlready = new Regex(@"\r\n$");
-						if (!newLineAlready.IsMatch(itemString))
-						{
-							buf.Append("\r\n");
-						}
-					}
-				}
-			}
-			if (bufChar.Length != 0)
-			{
-				buf.Append(new String(' ', indent));
-				buf.Append(bufChar + "\r\n");
-			}
-			return buf.ToString();
-		}
-        
-			// eat the whole comment until the end of line...
-		void EatComment(RegexBuffer buffer)
-		{
-			while (buffer.Current != '\r')
-			{
-				buffer.MoveNext();
-			}
-		}
+            foreach (RegexItem item in Items)
+            {
+                var regexChar = item as RegexCharacter;
+                if (regexChar != null && !regexChar.Special)
+                {
+                    bufChar.Append(regexChar.ToString(indent));
+                }
+                else
+                {
+                    // add any buffered chars...
+                    if (bufChar.Length != 0)
+                    {
+                        buf.Append(new string(' ', indent));
+                        buf.Append(bufChar + "\r\n");
+                        bufChar = new StringBuilder();
+                    }
+                    buf.Append(new string(' ', indent));
+                    var itemString = item.ToString(indent);
+                    if (itemString.Length != 0)
+                    {
+                        buf.Append(itemString);
+                        var newLineAlready = new Regex(@"\r\n$");
+                        if (!newLineAlready.IsMatch(itemString))
+                            buf.Append("\r\n");
+                    }
+                }
+            }
+            if (bufChar.Length != 0)
+            {
+                buf.Append(new string(' ', indent));
+                buf.Append(bufChar + "\r\n");
+            }
+            return buf.ToString();
+        }
 
-		void Parse(RegexBuffer buffer)
-		{
-			while (!buffer.AtEnd)
-			{
-					// if this regex ignores whitespace, we need to ignore these
-				if (buffer.IgnorePatternWhitespace &&
-					((buffer.Current == ' ') ||
-					(buffer.Current == '\r') ||
-					(buffer.Current == '\n') ||
-					(buffer.Current == '\t')))
-				{
-					buffer.MoveNext();
-				}
-				else
-				{
-					switch (buffer.Current)
-					{
-						case '(':
-							items.Add(new RegexCapture(buffer));
-							break;
+        // eat the whole comment until the end of line...
+        private void EatComment(RegexBuffer buffer)
+        {
+            while (buffer.Current != '\r')
+                buffer.MoveNext();
+        }
 
-						case ')':
-							// end of closure; just return.
-							return;
+        private void Parse(RegexBuffer buffer)
+        {
+            while (!buffer.AtEnd)
+                if (buffer.IgnorePatternWhitespace &&
+                    (buffer.Current == ' ' ||
+                     buffer.Current == '\r' ||
+                     buffer.Current == '\n' ||
+                     buffer.Current == '\t'))
+                    buffer.MoveNext();
+                else
+                    switch (buffer.Current)
+                    {
+                        case '(':
+                            Items.Add(new RegexCapture(buffer));
+                            break;
 
-						case '[':
-							items.Add(new RegexCharClass(buffer));
-							break;
+                        case ')':
+                            // end of closure; just return.
+                            return;
 
-						case '{':
-							items.Add(new RegexQuantifier(buffer));
-							break;
+                        case '[':
+                            Items.Add(new RegexCharClass(buffer));
+                            break;
 
-						case '|':
-							items.Add(new RegexAlternate(buffer));
-							break;
+                        case '{':
+                            Items.Add(new RegexQuantifier(buffer));
+                            break;
 
-						case '\\':
-							items.Add(new RegexCharacter(buffer));
-							break;
+                        case '|':
+                            Items.Add(new RegexAlternate(buffer));
+                            break;
 
-						case '#':
-							if (buffer.IgnorePatternWhitespace)
-							{
-								EatComment(buffer);
-							}
-							else
-							{
-								items.Add(new RegexCharacter(buffer));
-							}
-							break;
+                        case '\\':
+                            Items.Add(new RegexCharacter(buffer));
+                            break;
 
-						default:
-							items.Add(new RegexCharacter(buffer));
-							break;
-					}
-				}
-			}
-		}
-	}
+                        case '#':
+                            if (buffer.IgnorePatternWhitespace)
+                                EatComment(buffer);
+                            else
+                                Items.Add(new RegexCharacter(buffer));
+                            break;
+
+                        default:
+                            Items.Add(new RegexCharacter(buffer));
+                            break;
+                    }
+        }
+    }
 }

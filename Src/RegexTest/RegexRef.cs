@@ -2,72 +2,45 @@ using System;
 
 namespace RegexTest
 {
-	/// <summary>
-	/// Summary description for RegexRef.
-	/// </summary>
-	public class RegexRef: IComparable
-	{
-		int start;
-		int end;
-		string stringValue;
+    /// <summary>
+    ///     Summary description for RegexRef.
+    /// </summary>
+    public class RegexRef : IComparable
+    {
+        private int _end;
 
-		public RegexRef(RegexItem regexItem, int start, int end)
-		{
-			stringValue = regexItem.ToString(0);
-			this.start = start;
-			this.end = end;
-		}
+        public RegexRef(RegexItem regexItem, int start, int end)
+        {
+            StringValue = regexItem.ToString(0);
+            Start = start;
+            _end = end;
+        }
 
-		public int CompareTo(object o2)
-		{
-			RegexRef ref2 = (RegexRef) o2;
-			if (this.Length < ref2.Length)
-				return -1;
-			else if (this.Length > ref2.Length)
-				return 1;
-			else
-				return 0;
-		}
+        public string StringValue { get; set; }
 
-		public bool InRange(int location)
-		{
-			if ((location >= start) && (location <= end))
-				return true;
-			else
-				return false;
+        public int Start { get; }
 
-		}
+        public int Length
+        {
+            get { return _end - Start + 1; }
+            set { _end = Start + value - 1; }
+        }
 
-		public string StringValue
-		{
-			get
-			{
-				return stringValue;
-			}
-			set
-			{
-				stringValue = value;
-			}
-		}
+        public int CompareTo(object o2)
+        {
+            var ref2 = (RegexRef) o2;
+            if (Length < ref2.Length)
+                return -1;
+            if (Length > ref2.Length)
+                return 1;
+            return 0;
+        }
 
-		public int Start
-		{
-			get
-			{
-				return start;
-			}
-		}
-
-	    public int Length
-		{
-			get
-			{
-				return end - start + 1;
-			}
-			set
-			{
-				end = start + value - 1;
-			}
-		}
-	}
+        public bool InRange(int location)
+        {
+            if (location >= Start && location <= _end)
+                return true;
+            return false;
+        }
+    }
 }

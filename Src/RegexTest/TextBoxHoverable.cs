@@ -7,276 +7,235 @@ using System.Windows.Forms;
 // to do
 // provide an event on the hover.
 //   on mousemove, 
+
 namespace RegexTest
 {
-	public enum HoverState
-	{
-		Ready,
-		InHover,
-		AfterClick
-	}
+    public enum HoverState
+    {
+        Ready,
+        InHover,
+        AfterClick
+    }
 
-	public class HoverEventArgs: EventArgs
-	{
-		int characterOffset;
+    public class HoverEventArgs : EventArgs
+    {
+        public HoverEventArgs(int characterOffset)
+        {
+            CharacterOffset = characterOffset;
+        }
 
-		public HoverEventArgs(int characterOffset)
-		{
-			this.characterOffset = characterOffset;
-		}
+        public int CharacterOffset { get; }
+    }
 
-		public int CharacterOffset
-		{
-			get
-			{
-				return characterOffset;
-			}
-		}
-	}
+    public class HoverDetailAction
+    {
+        public HoverDetailAction(int highlightStart, int highlightLength, string tooltipText)
+        {
+            HighlightStart = highlightStart;
+            HighlightLength = highlightLength;
+            TooltipText = tooltipText;
+        }
 
-	public class HoverDetailAction
-	{
-		int highlightStart;
-		int highlightLength;
-		string tooltipText;
+        public int HighlightStart { get; }
 
-		public HoverDetailAction(int highlightStart, int highlightLength, string tooltipText)
-		{
-			this.highlightStart = highlightStart;
-			this.highlightLength = highlightLength;
-			this.tooltipText = tooltipText;
-		}
+        public int HighlightLength { get; }
 
-		public int HighlightStart
-		{
-			get
-			{
-				return highlightStart;
-			}
-		}
+        public string TooltipText { get; }
+    }
 
-		public int HighlightLength
-		{
-			get
-			{
-				return highlightLength;
-			}
-		}
-		
-		public string TooltipText
-		{
-			get
-			{
-				return tooltipText;
-			}
-		}
-
-	}
-
-	public delegate HoverDetailAction HoverDetailEventHandler(object sender, HoverEventArgs args);
+    public delegate HoverDetailAction HoverDetailEventHandler(object sender, HoverEventArgs args);
 
 
-	/// <summary>
-	/// A textbox that has advanced hovering support. 
-	/// </summary>
-	public class TextBoxHoverable : TextBox
-	{
-		Graphics g;
-		MouseEventArgs lastLocation;
-		private Timer hoverTimer;
-		private IContainer components;
-		SizeF characterSize;		// estimated character size
-		HoverState hoverState = HoverState.Ready;
-		int mouseMoveIgnore;
-		HoverTooltip hoverTooltip = new HoverTooltip();
-
-		public event HoverDetailEventHandler HoverDetail;
+    /// <summary>
+    ///     A textbox that has advanced hovering support.
+    /// </summary>
+    public class TextBoxHoverable : TextBox
+    {
+        private SizeF _characterSize; // estimated character size
+        private IContainer components;
+        private Graphics _g;
+        private HoverState _hoverState = HoverState.Ready;
+        private Timer _hoverTimer;
+        private readonly HoverTooltip _hoverTooltip = new HoverTooltip();
+        private MouseEventArgs _lastLocation;
+        private int _mouseMoveIgnore;
 
         public TextBoxHoverable()
-		{
-			InitializeComponent();
-		}
+        {
+            InitializeComponent();
+        }
 
-		protected override void OnMouseMove(MouseEventArgs args)
-		{
-			if (args.Button == MouseButtons.None)
-			{
-				if (mouseMoveIgnore > 0)
-				{
-					mouseMoveIgnore--;
-					return;
-				}
-				lastLocation = args;
+        public event HoverDetailEventHandler HoverDetail;
 
-				if (hoverState == HoverState.InHover)
-				{
-					DoHover();
-				}
-				else
-				{
-					try
-					{
-						hoverTimer.Enabled = false;
-						hoverTimer.Enabled = true;
-						hoverTimer.Start();
-						hoverState = HoverState.Ready;
-					}
-					catch (InvalidOperationException)
-					{
-						// eat this here...
-					}
-				}
-			}
+        protected override void OnMouseMove(MouseEventArgs args)
+        {
+            if (args.Button == MouseButtons.None)
+            {
+                if (_mouseMoveIgnore > 0)
+                {
+                    _mouseMoveIgnore--;
+                    return;
+                }
+                _lastLocation = args;
 
-			base.OnMouseMove(args);
-		}
+                if (_hoverState == HoverState.InHover)
+                    DoHover();
+                else
+                    try
+                    {
+                        _hoverTimer.Enabled = false;
+                        _hoverTimer.Enabled = true;
+                        _hoverTimer.Start();
+                        _hoverState = HoverState.Ready;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // eat this here...
+                    }
+            }
 
-		private void InitializeComponent()
-		{
-			components = new Container();
-			hoverTimer = new Timer(components);
-			// 
-			// hoverTimer
-			// 
-			hoverTimer.Tick += hoverTimer_Tick;
+            base.OnMouseMove(args);
+        }
 
-		}
+        private void InitializeComponent()
+        {
+            components = new Container();
+            _hoverTimer = new Timer(components);
+            // 
+            // hoverTimer
+            // 
+            _hoverTimer.Tick += hoverTimer_Tick;
+        }
 
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			// TODO: Add custom paint code here
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            // TODO: Add custom paint code here
 
-			// Calling the base class OnPaint
-			base.OnPaint(pe);
-		}
+            // Calling the base class OnPaint
+            base.OnPaint(pe);
+        }
 
-		private void hoverTimer_Tick(object sender, EventArgs e)
-		{
-			DoHover();
-		}
+        private void hoverTimer_Tick(object sender, EventArgs e)
+        {
+            DoHover();
+        }
 
-		private void DoHover()
-		{
-				// if the user has clicked and hasn't moved the mouse, 
-				// don't do anything...
-			if (hoverState == HoverState.AfterClick)
-				return;
+        private void DoHover()
+        {
+            // if the user has clicked and hasn't moved the mouse, 
+            // don't do anything...
+            if (_hoverState == HoverState.AfterClick)
+                return;
 
-			hoverTimer.Enabled = false;
+            _hoverTimer.Enabled = false;
 
-				// first time - create the Graphics object, and get the
-				// height of the characters...
-			if (g == null)
-			{
-				g = Graphics.FromHwnd(Handle);
-				characterSize = g.MeasureString("X", Font);
-			}
+            // first time - create the Graphics object, and get the
+            // height of the characters...
+            if (_g == null)
+            {
+                _g = Graphics.FromHwnd(Handle);
+                _characterSize = _g.MeasureString("X", Font);
+            }
 
-				// Figure out what character we're hovering over. 
-				// Start by identifying the line
+            // Figure out what character we're hovering over. 
+            // Start by identifying the line
 
-			int line = (int) (lastLocation.Y / characterSize.Height);
-			if (line >= Lines.Length)
-			{
-				DoneHover();
-				return;
-			}
+            var line = (int) (_lastLocation.Y / _characterSize.Height);
+            if (line >= Lines.Length)
+            {
+                DoneHover();
+                return;
+            }
 
-			// Do this with a brute-force algorithm, by measuring
-			// the string until we find the character that puts us
-			// to the right of the mouse location.
+            // Do this with a brute-force algorithm, by measuring
+            // the string until we find the character that puts us
+            // to the right of the mouse location.
 
-			string s = Lines[line];
-			SizeF size = g.MeasureString(s, Font);
-			if (lastLocation.X > size.Width)	// past end of line
-			{
-				DoneHover();
-				return;
-			}
+            var s = Lines[line];
+            var size = _g.MeasureString(s, Font);
+            if (_lastLocation.X > size.Width) // past end of line
+            {
+                DoneHover();
+                return;
+            }
 
-			while (size.Width > lastLocation.X)
-			{
-				s = s.Substring(0, s.Length - 1);
-				size = g.MeasureString(s, Font);
-			}
+            while (size.Width > _lastLocation.X)
+            {
+                s = s.Substring(0, s.Length - 1);
+                size = _g.MeasureString(s, Font);
+            }
 
-				// figure out the character offset for this line...
-			int offset = 0;
-			for (int lineIndex = 0; lineIndex < line; lineIndex++)
-			{
-				offset += Lines[lineIndex].Length + 2;	// add 2 to cover /r/n at the end of each line
-			}
+            // figure out the character offset for this line...
+            var offset = 0;
+            for (var lineIndex = 0; lineIndex < line; lineIndex++)
+                offset += Lines[lineIndex].Length + 2; // add 2 to cover /r/n at the end of each line
 
-			HoverDetailAction action = OnHoverDetail(s.Length + offset);
-			if (action != null)
-			{
-				SelectionStart = action.HighlightStart;
-				SelectionLength = action.HighlightLength;
-				if (SelectionLength < 0)
-					SelectionLength = 0;
-				
-				hoverTooltip.WindowText = action.TooltipText;
-				
-				hoverTooltip.Location = 
-					PointToScreen(new Point(50, 
-					                        Font.Height * (line + 2)));
-				hoverTooltip.Show();
-				Debug.WriteLine(action.TooltipText);
-				if (!Focused)
-				{
-					Focus();
-				}
-				hoverState = HoverState.InHover;
-			}
+            var action = OnHoverDetail(s.Length + offset);
+            if (action != null)
+            {
+                SelectionStart = action.HighlightStart;
+                SelectionLength = action.HighlightLength;
+                if (SelectionLength < 0)
+                    SelectionLength = 0;
 
-			hoverTimer.Enabled = false;
-		}
+                _hoverTooltip.WindowText = action.TooltipText;
 
-		protected override void OnClick(EventArgs e)
-		{
-			hoverTimer.Enabled = false;
-			hoverState = HoverState.AfterClick;
-			hoverTooltip.Hide();
-			mouseMoveIgnore = 1;
-			base.OnClick(e);
-		}
+                _hoverTooltip.Location =
+                    PointToScreen(new Point(50,
+                        Font.Height * (line + 2)));
+                _hoverTooltip.Show();
+                Debug.WriteLine(action.TooltipText);
+                if (!Focused)
+                    Focus();
+                _hoverState = HoverState.InHover;
+            }
 
-		void DoneHover()
-		{
-			if (hoverState == HoverState.InHover)
-			{
-				hoverTooltip.Hide();
-				SelectionLength = 0;
-				hoverState = HoverState.Ready;
-				hoverTimer.Enabled = false;
-			}
-		}
+            _hoverTimer.Enabled = false;
+        }
 
-		protected override void OnLostFocus(EventArgs e)
-		{
-			DoneHover();
-			base.OnLostFocus(e);
-		}
+        protected override void OnClick(EventArgs e)
+        {
+            _hoverTimer.Enabled = false;
+            _hoverState = HoverState.AfterClick;
+            _hoverTooltip.Hide();
+            _mouseMoveIgnore = 1;
+            base.OnClick(e);
+        }
 
-		protected HoverDetailAction OnHoverDetail(int offset)
-		{
-			if (HoverDetail != null)
-			{
-				return HoverDetail(this, new HoverEventArgs(offset));
-			}
-			return null;
-		}
+        private void DoneHover()
+        {
+            if (_hoverState == HoverState.InHover)
+            {
+                _hoverTooltip.Hide();
+                SelectionLength = 0;
+                _hoverState = HoverState.Ready;
+                _hoverTimer.Enabled = false;
+            }
+        }
 
-		protected override void OnLeave(EventArgs e)
-		{
-			DoneHover();
-			base.OnMouseLeave(e);
-		}
+        protected override void OnLostFocus(EventArgs e)
+        {
+            DoneHover();
+            base.OnLostFocus(e);
+        }
 
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			DoneHover();
-			base.OnMouseLeave(e);
-		}
-	}
+        private HoverDetailAction OnHoverDetail(int offset)
+        {
+            if (HoverDetail != null)
+                return HoverDetail(this, new HoverEventArgs(offset));
+            return null;
+        }
+
+        protected override void OnLeave(EventArgs e)
+        {
+            DoneHover();
+            base.OnMouseLeave(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            DoneHover();
+            base.OnMouseLeave(e);
+        }
+    }
 }
