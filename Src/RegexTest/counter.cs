@@ -1,46 +1,27 @@
 using System;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace Timing
 {
-	public class Counter 
+	public class Counter
 	{
-		long elapsedCount;
-		long startCount;
+	    private Stopwatch stopwatch = new Stopwatch();
 
 		public void Start()
 		{
-			startCount = 0;
-			QueryPerformanceCounter(ref startCount);
-		}
+            stopwatch.Start();
+        }
 		
 		public void Stop()
 		{
-			long stopCount = 0;
-			QueryPerformanceCounter(ref stopCount);
+            stopwatch.Stop();
+        }
 
-			elapsedCount += (stopCount - startCount);
-		}
+	    public double Seconds => stopwatch.Elapsed.TotalSeconds;
 
-	    public float Seconds
-		{
-			get
-			{
-				long freq = 0;
-				QueryPerformanceFrequency(ref freq);
-				return(elapsedCount / (float) freq);
-			}
-		}
-
-		public override string ToString()
+	    public override string ToString()
 		{
 			return String.Format("{0} seconds", Seconds);
 		}
-
-	    [DllImport("KERNEL32")]
-		private static extern bool QueryPerformanceCounter(  ref long lpPerformanceCount);
-
-		[DllImport("KERNEL32")]
-		private static extern bool QueryPerformanceFrequency( ref long lpFrequency);                     
 	}
 }
