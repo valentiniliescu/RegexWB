@@ -1,11 +1,12 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace Timing
 {
 	public class Counter 
 	{
-		long elapsedCount = 0;
-		long startCount = 0;
+		long elapsedCount;
+		long startCount;
 
 		public void Start()
 		{
@@ -27,7 +28,7 @@ namespace Timing
 			{
 				long freq = 0;
 				QueryPerformanceFrequency(ref freq);
-				return((float) elapsedCount / (float) freq);
+				return(elapsedCount / (float) freq);
 			}
 		}
 
@@ -36,10 +37,10 @@ namespace Timing
 			return String.Format("{0} seconds", Seconds);
 		}
 
-	    [System.Runtime.InteropServices.DllImport("KERNEL32")]
+	    [DllImport("KERNEL32")]
 		private static extern bool QueryPerformanceCounter(  ref long lpPerformanceCount);
 
-		[System.Runtime.InteropServices.DllImport("KERNEL32")]
+		[DllImport("KERNEL32")]
 		private static extern bool QueryPerformanceFrequency( ref long lpFrequency);                     
 	}
 }

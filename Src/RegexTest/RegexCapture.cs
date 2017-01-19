@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RegexTest
@@ -70,7 +69,7 @@ namespace RegexTest
 			
 				if (!decoded)
 				{
-					decoded = CheckConditional(buffer);
+					CheckConditional(buffer);
 				}
 			
 			}
@@ -89,7 +88,7 @@ namespace RegexTest
 		void CheckClosingParen(RegexBuffer buffer)
 		{
 			// check for closing ")"
-			char current = ' ';
+			char current;
 			try
 			{
 				current = buffer.Current;
@@ -100,7 +99,7 @@ namespace RegexTest
 				buffer.ErrorLocation = startLocation;
 				buffer.ErrorLength = 1;
 				throw new Exception(
-					String.Format("Missing closing ')' in capture"), e);
+					"Missing closing \')\' in capture", e);
 			}
 			if (current != ')')
 			{
@@ -118,7 +117,7 @@ namespace RegexTest
 				// we're done
 			if (buffer.ExplicitCapture)
 			{
-				description = String.Format("Non-capturing Group");
+				description = "Non-capturing Group";
 			}
 
 			expression = new RegexExpression(buffer);
@@ -169,7 +168,7 @@ namespace RegexTest
 			Match match = regex.Match(buffer.String);
 			if (match.Success)
 			{
-				description = String.Format("Non-capturing Group");
+				description = "Non-capturing Group";
 
 				buffer.Offset += match.Groups["Rest"].Index;
 				expression = new RegexExpression(buffer);
@@ -283,7 +282,7 @@ namespace RegexTest
 			Match match = regex.Match(buffer.String);
 			if (match.Success)
 			{
-				description = String.Format("Non-backtracking subexpressio");
+				description = "Non-backtracking subexpressio";
 
 				buffer.Offset += match.Groups["Rest"].Index;
 				expression = new RegexExpression(buffer);
@@ -308,7 +307,7 @@ namespace RegexTest
 			Match match = regex.Match(buffer.String);
 			if (match.Success)
 			{
-				description = String.Format("Conditional Subexpression");
+				description = "Conditional Subexpression";
 
 				buffer.Offset += match.Groups["Rest"].Index;
 				expression = new RegexConditional(buffer);

@@ -1,7 +1,3 @@
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace RegexTest
@@ -9,10 +5,10 @@ namespace RegexTest
 	/// <summary>
 	/// Summary description for About.
 	/// </summary>
-	public class About : System.Windows.Forms.Form
+	public class About : Form
 	{
-		private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+		private Label label1;
+        private TextBox textBox1;
         private LinkLabel linkLabel1;
 		/// <summary>
 		/// Required designer variable.

@@ -1,6 +1,3 @@
-using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -9,21 +6,21 @@ namespace RegexTest
 	/// <summary>
 	/// Summary description for MakeAssemblyDialog.
 	/// </summary>
-	public class MakeAssemblyDialog : System.Windows.Forms.Form
+	public class MakeAssemblyDialog : Form
 	{
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button OK;
-		private System.Windows.Forms.Button Cancel;
-		public System.Windows.Forms.CheckBox CreatePublic;
-		public System.Windows.Forms.TextBox Namespace;
-		private System.Windows.Forms.Label label2;
-		public System.Windows.Forms.TextBox TypeName;
-		public System.Windows.Forms.TextBox AssemblyName;
-		private System.Windows.Forms.Label label3;
+		private Label label1;
+		private Button OK;
+		private Button Cancel;
+		public CheckBox CreatePublic;
+		public TextBox Namespace;
+		private Label label2;
+		public TextBox TypeName;
+		public TextBox AssemblyName;
+		private Label label3;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public MakeAssemblyDialog()
 		{

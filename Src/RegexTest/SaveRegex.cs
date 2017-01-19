@@ -1,28 +1,26 @@
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace RegexTest
 {
 	/// <summary>
 	/// Summary description for SaveRegex.
 	/// </summary>
-	public class SaveRegex : System.Windows.Forms.Form
+	public class SaveRegex : Form
 	{
 		private static string lastDirectory = "library";
 
-		public System.Windows.Forms.TextBox filename;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button okButton;
-		private System.Windows.Forms.Button cancelButton;
-		private System.Windows.Forms.Button browseButton;
+		public TextBox filename;
+		private Label label2;
+		private Button okButton;
+		private Button cancelButton;
+		private Button browseButton;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public SaveRegex()
 		{
@@ -123,7 +121,7 @@ namespace RegexTest
 		}
 		#endregion
 
-		private void browseButton_Click(object sender, System.EventArgs e)
+		private void browseButton_Click(object sender, EventArgs e)
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
 			dialog.InitialDirectory = lastDirectory;
@@ -136,7 +134,7 @@ namespace RegexTest
 			}
 		}
 
-		private void okButton_Click(object sender, System.EventArgs e)
+		private void okButton_Click(object sender, EventArgs e)
 		{
 			FileInfo fileInfo = new FileInfo(filename.Text);
 			lastDirectory = fileInfo.DirectoryName;

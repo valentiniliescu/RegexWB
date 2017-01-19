@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Windows.Forms;
-using System.Text;
 using System.Diagnostics;
-
+using System.Drawing;
+using System.Windows.Forms;
 
 // to do
 // provide an event on the hover.
@@ -83,15 +79,15 @@ namespace RegexTest
 	/// <summary>
 	/// A textbox that has advanced hovering support. 
 	/// </summary>
-	public class TextBoxHoverable : System.Windows.Forms.TextBox
+	public class TextBoxHoverable : TextBox
 	{
-		Graphics g = null;
+		Graphics g;
 		MouseEventArgs lastLocation;
-		private System.Windows.Forms.Timer hoverTimer;
-		private System.ComponentModel.IContainer components;
+		private Timer hoverTimer;
+		private IContainer components;
 		SizeF characterSize;		// estimated character size
 		HoverState hoverState = HoverState.Ready;
-		int mouseMoveIgnore = 0;
+		int mouseMoveIgnore;
 		HoverTooltip hoverTooltip = new HoverTooltip();
 
 		public event HoverDetailEventHandler HoverDetail;
@@ -137,12 +133,12 @@ namespace RegexTest
 
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.hoverTimer = new System.Windows.Forms.Timer(this.components);
+			components = new Container();
+			hoverTimer = new Timer(components);
 			// 
 			// hoverTimer
 			// 
-			this.hoverTimer.Tick += new System.EventHandler(this.hoverTimer_Tick);
+			hoverTimer.Tick += hoverTimer_Tick;
 
 		}
 
@@ -154,7 +150,7 @@ namespace RegexTest
 			base.OnPaint(pe);
 		}
 
-		private void hoverTimer_Tick(object sender, System.EventArgs e)
+		private void hoverTimer_Tick(object sender, EventArgs e)
 		{
 			DoHover();
 		}
@@ -172,7 +168,7 @@ namespace RegexTest
 				// height of the characters...
 			if (g == null)
 			{
-				g = Graphics.FromHwnd(this.Handle);
+				g = Graphics.FromHwnd(Handle);
 				characterSize = g.MeasureString("X", Font);
 			}
 
@@ -214,8 +210,8 @@ namespace RegexTest
 			HoverDetailAction action = OnHoverDetail(s.Length + offset);
 			if (action != null)
 			{
-				this.SelectionStart = action.HighlightStart;
-				this.SelectionLength = action.HighlightLength;
+				SelectionStart = action.HighlightStart;
+				SelectionLength = action.HighlightLength;
 				if (SelectionLength < 0)
 					SelectionLength = 0;
 				
@@ -223,7 +219,7 @@ namespace RegexTest
 				
 				hoverTooltip.Location = 
 					PointToScreen(new Point(50, 
-					                        (int) (Font.Height * (line + 2))));
+					                        Font.Height * (line + 2)));
 				hoverTooltip.Show();
 				Debug.WriteLine(action.TooltipText);
 				if (!Focused)
@@ -250,7 +246,7 @@ namespace RegexTest
 			if (hoverState == HoverState.InHover)
 			{
 				hoverTooltip.Hide();
-				this.SelectionLength = 0;
+				SelectionLength = 0;
 				hoverState = HoverState.Ready;
 				hoverTimer.Enabled = false;
 			}

@@ -117,7 +117,7 @@ namespace RegexTest
 			character = (string) escaped[buffer.Current];
 			if (character == null)
 			{
-				bool decoded = false;
+				bool decoded;
 
 				decoded = CheckBackReference(buffer);
 

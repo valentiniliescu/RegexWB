@@ -1,6 +1,3 @@
-using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -9,13 +6,13 @@ namespace RegexTest
 	/// <summary>
 	/// Summary description for ReleaseNotes.
 	/// </summary>
-	public class ReleaseNotes : System.Windows.Forms.Form
+	public class ReleaseNotes : Form
 	{
-		private System.Windows.Forms.Label labelNotes;
+		private Label labelNotes;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		public ReleaseNotes()
 		{
@@ -24,7 +21,7 @@ namespace RegexTest
 			//
 			InitializeComponent();
 
-			this.labelNotes.Text =
+			labelNotes.Text =
 				@"7/3/2003 V2.0
 
 Lots of changes in this version:

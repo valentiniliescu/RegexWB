@@ -1,15 +1,13 @@
 using System;
-using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
+using System.Drawing;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Soap;
-using System.Reflection;
+using System.Windows.Forms;
 using Timing;
 
 namespace RegexTest
@@ -17,154 +15,154 @@ namespace RegexTest
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class Form1 : System.Windows.Forms.Form
+	public class Form1 : Form
 	{
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox Strings;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox Output;
-		private System.Windows.Forms.CheckBox IgnoreWhitespace;
-		private System.Windows.Forms.CheckBox IgnoreCase;
-		private System.Windows.Forms.CheckBox Compiled;
-		private System.Windows.Forms.CheckBox ExplicitCapture;
-		private System.Windows.Forms.CheckBox Singleline;
-		private System.Windows.Forms.CheckBox Multiline;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox Elapsed;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.TextBox Iterations;
-		private System.Windows.Forms.Button Interpret;
-		private System.Windows.Forms.Button Split;
+		private Label label1;
+		private Label label2;
+		private TextBox Strings;
+		private Button button1;
+		private Label label3;
+		private TextBox Output;
+		private CheckBox IgnoreWhitespace;
+		private CheckBox IgnoreCase;
+		private CheckBox Compiled;
+		private CheckBox ExplicitCapture;
+		private CheckBox Singleline;
+		private CheckBox Multiline;
+		private Label label4;
+		private TextBox Elapsed;
+		private Label label5;
+		private TextBox Iterations;
+		private Button Interpret;
+		private Button Split;
 		private TextBoxHoverable RegexText;
-		private System.Windows.Forms.TextBox CompileTime;
-		private System.Windows.Forms.Label label33;
-		private System.Windows.Forms.CheckBox OneString;
-		private System.ComponentModel.IContainer components;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem menuItem3;
-		private System.Windows.Forms.MenuItem menuItem4;
-		private System.Windows.Forms.MenuItem menuItem5;
-		private System.Windows.Forms.MenuItem menuItem6;
-		private System.Windows.Forms.MenuItem menuItem7;
-		private System.Windows.Forms.MenuItem menuItem8;
-		private System.Windows.Forms.MenuItem menuItem9;
-		private System.Windows.Forms.MenuItem menuItem10;
-		private System.Windows.Forms.MenuItem menuItem11;
-		private System.Windows.Forms.MenuItem menuItem12;
-		private System.Windows.Forms.MenuItem menuItem13;
-		private System.Windows.Forms.MenuItem menuItem14;
-		private System.Windows.Forms.MenuItem menuItem15;
-		private System.Windows.Forms.MenuItem menuItem16;
-		private System.Windows.Forms.MenuItem menuItem17;
-		private System.Windows.Forms.MenuItem menuItem18;
-		private System.Windows.Forms.MenuItem menuItem19;
-		private System.Windows.Forms.MenuItem menuItem20;
-		private System.Windows.Forms.MenuItem menuItem21;
-		private System.Windows.Forms.MenuItem menuItem22;
-		private System.Windows.Forms.MenuItem menuItem23;
-		private System.Windows.Forms.MenuItem menuItem24;
-		private System.Windows.Forms.MenuItem menuItem25;
-		private System.Windows.Forms.MenuItem menuItem26;
-		private System.Windows.Forms.MenuItem menuItem27;
-		private System.Windows.Forms.MenuItem menuItem28;
-		private System.Windows.Forms.MenuItem menuItem29;
-		private System.Windows.Forms.MenuItem menuItem30;
-		private System.Windows.Forms.MenuItem menuItem31;
-		private System.Windows.Forms.MenuItem menuItem32;
-		private System.Windows.Forms.MenuItem menuItem33;
-		private System.Windows.Forms.MenuItem menuItem34;
-		private System.Windows.Forms.MenuItem menuItem35;
-		private System.Windows.Forms.MenuItem menuItem36;
-		private System.Windows.Forms.MenuItem menuItem37;
-		private System.Windows.Forms.MenuItem menuItem38;
-		private System.Windows.Forms.MenuItem menuItem39;
-		private System.Windows.Forms.MenuItem menuItem40;
-		private System.Windows.Forms.MenuItem menuItem41;
-		private System.Windows.Forms.MenuItem menuItem42;
-		private System.Windows.Forms.MenuItem menuItem43;
-		private System.Windows.Forms.MenuItem menuItem44;
-		private System.Windows.Forms.MenuItem menuItem45;
-		private System.Windows.Forms.MenuItem menuItem46;
-		private System.Windows.Forms.MenuItem menuItem47;
-		private System.Windows.Forms.MenuItem menuItem48;
-		private System.Windows.Forms.MenuItem menuItem49;
-		private System.Windows.Forms.MenuItem menuItem50;
-		private System.Windows.Forms.MenuItem menuItem51;
-		private System.Windows.Forms.MenuItem menuItem52;
-		private System.Windows.Forms.MenuItem menuItem53;
-		private System.Windows.Forms.MenuItem menuItem54;
-		private System.Windows.Forms.MenuItem menuItem56;
-		private System.Windows.Forms.MenuItem menuItem55;
-		private System.Windows.Forms.MenuItem menuItem57;
-		private System.Windows.Forms.MenuItem menuItem58;
-		private System.Windows.Forms.MenuItem menuItem59;
-		private System.Windows.Forms.MenuItem menuItem60;
-		private System.Windows.Forms.MenuItem menuItem61;
-		private System.Windows.Forms.MenuItem menuItem62;
-		private System.Windows.Forms.MenuItem menuItem63;
-		private System.Windows.Forms.MenuItem menuItem64;
-		private System.Windows.Forms.MenuItem menuItem65;
-		private System.Windows.Forms.MenuItem menuItem66;
-		private System.Windows.Forms.MenuItem menuItem67;
-		private System.Windows.Forms.MenuItem BackReferenceMenuItem;
-		private System.Windows.Forms.ToolTip toolTip1;
-		private System.Windows.Forms.MenuItem menuItem68;
-		private System.Windows.Forms.MenuItem menuItem69;
+		private TextBox CompileTime;
+		private Label label33;
+		private CheckBox OneString;
+		private IContainer components;
+		private MenuItem menuItem2;
+		private MenuItem menuItem3;
+		private MenuItem menuItem4;
+		private MenuItem menuItem5;
+		private MenuItem menuItem6;
+		private MenuItem menuItem7;
+		private MenuItem menuItem8;
+		private MenuItem menuItem9;
+		private MenuItem menuItem10;
+		private MenuItem menuItem11;
+		private MenuItem menuItem12;
+		private MenuItem menuItem13;
+		private MenuItem menuItem14;
+		private MenuItem menuItem15;
+		private MenuItem menuItem16;
+		private MenuItem menuItem17;
+		private MenuItem menuItem18;
+		private MenuItem menuItem19;
+		private MenuItem menuItem20;
+		private MenuItem menuItem21;
+		private MenuItem menuItem22;
+		private MenuItem menuItem23;
+		private MenuItem menuItem24;
+		private MenuItem menuItem25;
+		private MenuItem menuItem26;
+		private MenuItem menuItem27;
+		private MenuItem menuItem28;
+		private MenuItem menuItem29;
+		private MenuItem menuItem30;
+		private MenuItem menuItem31;
+		private MenuItem menuItem32;
+		private MenuItem menuItem33;
+		private MenuItem menuItem34;
+		private MenuItem menuItem35;
+		private MenuItem menuItem36;
+		private MenuItem menuItem37;
+		private MenuItem menuItem38;
+		private MenuItem menuItem39;
+		private MenuItem menuItem40;
+		private MenuItem menuItem41;
+		private MenuItem menuItem42;
+		private MenuItem menuItem43;
+		private MenuItem menuItem44;
+		private MenuItem menuItem45;
+		private MenuItem menuItem46;
+		private MenuItem menuItem47;
+		private MenuItem menuItem48;
+		private MenuItem menuItem49;
+		private MenuItem menuItem50;
+		private MenuItem menuItem51;
+		private MenuItem menuItem52;
+		private MenuItem menuItem53;
+		private MenuItem menuItem54;
+		private MenuItem menuItem56;
+		private MenuItem menuItem55;
+		private MenuItem menuItem57;
+		private MenuItem menuItem58;
+		private MenuItem menuItem59;
+		private MenuItem menuItem60;
+		private MenuItem menuItem61;
+		private MenuItem menuItem62;
+		private MenuItem menuItem63;
+		private MenuItem menuItem64;
+		private MenuItem menuItem65;
+		private MenuItem menuItem66;
+		private MenuItem menuItem67;
+		private MenuItem BackReferenceMenuItem;
+		private ToolTip toolTip1;
+		private MenuItem menuItem68;
+		private MenuItem menuItem69;
 
 		int regexInsertionPoint = -1;
-		RegexBuffer buffer = null;
+		RegexBuffer buffer;
 	    SizeF characterSize;
-		private System.Windows.Forms.CheckBox HoverInterpret;
-		private System.Windows.Forms.MainMenu mainMenu1;
-		private System.Windows.Forms.MenuItem menuItem70;
-		private System.Windows.Forms.MenuItem addItem;
-		private System.Windows.Forms.MenuItem menuItem73;
-		private System.Windows.Forms.MenuItem copyAsCSharp;
-		private System.Windows.Forms.MenuItem copyAsVB;
-		private System.Windows.Forms.MenuItem pasteFromCSharp;
-		private System.Windows.Forms.MenuItem library;
-		private System.Windows.Forms.MenuItem about;
-		private System.Windows.Forms.MenuItem makeAssemblyItem;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.MenuItem saveRegex;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.TextBox Description;
+		private CheckBox HoverInterpret;
+		private MainMenu mainMenu1;
+		private MenuItem menuItem70;
+		private MenuItem addItem;
+		private MenuItem menuItem73;
+		private MenuItem copyAsCSharp;
+		private MenuItem copyAsVB;
+		private MenuItem pasteFromCSharp;
+		private MenuItem library;
+		private MenuItem about;
+		private MenuItem makeAssemblyItem;
+		private GroupBox groupBox1;
+		private MenuItem saveRegex;
+		private MenuItem menuItem1;
+		private Label label6;
+		private TextBox Description;
 		bool bufferDirty = true;
-		private System.Windows.Forms.CheckBox HideGroupZero;
-		private System.Windows.Forms.ContextMenu contextMenu1;
-		private System.Windows.Forms.MenuItem undoMenuItem;
-		private System.Windows.Forms.MenuItem menuItem72;
-		private System.Windows.Forms.MenuItem cutMenuItem;
-		private System.Windows.Forms.MenuItem copyMenuItem;
-		private System.Windows.Forms.MenuItem pasteMenuItem;
-		private System.Windows.Forms.MenuItem deleteMenuItem;
-		private System.Windows.Forms.MenuItem menuItem78;
-		private System.Windows.Forms.MenuItem selectAllMenuItem;
-		private System.Windows.Forms.MenuItem menuItem80;
-		string currentDirectory = System.Environment.CurrentDirectory;
+		private CheckBox HideGroupZero;
+		private ContextMenu contextMenu1;
+		private MenuItem undoMenuItem;
+		private MenuItem menuItem72;
+		private MenuItem cutMenuItem;
+		private MenuItem copyMenuItem;
+		private MenuItem pasteMenuItem;
+		private MenuItem deleteMenuItem;
+		private MenuItem menuItem78;
+		private MenuItem selectAllMenuItem;
+		private MenuItem menuItem80;
+		string currentDirectory = Environment.CurrentDirectory;
 
-		MenuItem contextMenuAddItems = null;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Panel panel4;
-		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.Panel panel6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.TextBox ReplaceString;
-		private System.Windows.Forms.Panel panel7;
-		private System.Windows.Forms.Panel panel8;
-		private System.Windows.Forms.Panel panel9;
-		private System.Windows.Forms.Button Replace;
-		private System.Windows.Forms.CheckBox MatchEvaluator;
-		private System.Windows.Forms.MenuItem menuItem71;
-		private System.Windows.Forms.MenuItem menuReleaseNotes;
-		MenuItem contextMenuBackreferences = null;
+		MenuItem contextMenuAddItems;
+		private GroupBox groupBox2;
+		private Panel panel1;
+		private PageSetupDialog pageSetupDialog1;
+		private Panel panel2;
+		private Panel panel3;
+		private Panel panel4;
+		private Panel panel5;
+		private Panel panel6;
+		private Label label7;
+		private TextBox ReplaceString;
+		private Panel panel7;
+		private Panel panel8;
+		private Panel panel9;
+		private Button Replace;
+		private CheckBox MatchEvaluator;
+		private MenuItem menuItem71;
+		private MenuItem menuReleaseNotes;
+		MenuItem contextMenuBackreferences;
 
 		public Form1()
 		{
@@ -173,8 +171,8 @@ namespace RegexTest
 			//
 			InitializeComponent();
 
-			EventHandler menuHandler = new System.EventHandler(this.addItem_Click);
-			foreach (MenuItem mainItem in this.addItem.MenuItems)
+			EventHandler menuHandler = addItem_Click;
+			foreach (MenuItem mainItem in addItem.MenuItems)
 			{
 				foreach (MenuItem subItem in mainItem.MenuItems)
 				{
@@ -201,7 +199,7 @@ namespace RegexTest
 			{
 				if (subItem.Text.IndexOf("Backreference") != -1)
 				{
-					this.contextMenuBackreferences = subItem;
+					contextMenuBackreferences = subItem;
 				}
 			}
 		}
@@ -1410,27 +1408,27 @@ namespace RegexTest
 		private RegexOptions CreateRegexOptions()
 		{
 			RegexOptions regOp = new RegexOptions();
-			if (this.IgnoreWhitespace.Checked)
+			if (IgnoreWhitespace.Checked)
 			{
 				regOp |= RegexOptions.IgnorePatternWhitespace;
 			}
-			if (this.IgnoreCase.Checked)
+			if (IgnoreCase.Checked)
 			{
 				regOp |= RegexOptions.IgnoreCase;
 			}
-			if (this.Compiled.Checked)
+			if (Compiled.Checked)
 			{
 				regOp |= RegexOptions.Compiled;
 			}
-			if (this.ExplicitCapture.Checked)
+			if (ExplicitCapture.Checked)
 			{
 				regOp |= RegexOptions.ExplicitCapture;
 			}
-			if (this.Singleline.Checked)
+			if (Singleline.Checked)
 			{
 				regOp |= RegexOptions.Singleline;
 			}
-			if (this.Multiline.Checked)
+			if (Multiline.Checked)
 			{
 				regOp |= RegexOptions.Multiline;
 			}
@@ -1444,18 +1442,18 @@ namespace RegexTest
 			return new Regex(RegexText.Text, regOp);
 		}
 
-		private void button1_Click(object sender, System.EventArgs e)
+		private void button1_Click(object sender, EventArgs e)
 		{
 			SaveValues();
 
-			Regex regex = null;
+			Regex regex;
 			try
 			{
 				Counter counter = new Counter();
 				counter.Start();
 				regex = CreateRegex();
 				counter.Stop();
-				this.CompileTime.Text = counter.Seconds.ToString();
+				CompileTime.Text = counter.Seconds.ToString();
 			}
 			catch (Exception ex)
 			{
@@ -1487,7 +1485,7 @@ namespace RegexTest
 				int iterations = Convert.ToInt32(Iterations.Text);
 				Counter counter = new Counter();
 				counter.Start();
-				Match m = null;
+				Match m;
 				for (int i = 0; i < iterations; i++)
 				{
 					m = regex.Match(s);
@@ -1591,12 +1589,11 @@ namespace RegexTest
 			}
 			catch (FileNotFoundException)
 			{
-				return;
 			}
 		}
 		#endregion
 
-		private void Form1_Load(object sender, System.EventArgs e)
+		private void Form1_Load(object sender, EventArgs e)
 		{
 			string filename = 
 				String.Format(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\regex.xml");
@@ -1606,14 +1603,14 @@ namespace RegexTest
 				LoadRegex(filename);
 			}
 
-			Graphics g = Graphics.FromHwnd(this.Handle);
-			this.characterSize = g.MeasureString(RegexText.Text, RegexText.Font);
-			this.characterSize.Width /= RegexText.Text.Length;
+			Graphics g = Graphics.FromHwnd(Handle);
+			characterSize = g.MeasureString(RegexText.Text, RegexText.Font);
+			characterSize.Width /= RegexText.Text.Length;
 		}
 
 		// Go from commented regex version to non-commented version
 
-	    private void Interpret_Click(object sender, System.EventArgs e)
+	    private void Interpret_Click(object sender, EventArgs e)
 		{
 			SaveValues();
 
@@ -1639,10 +1636,10 @@ namespace RegexTest
 			}
 		}
 
-		private void Split_Click(object sender, System.EventArgs e)
+		private void Split_Click(object sender, EventArgs e)
 		{
 			SaveValues();
-			Regex regex = null;
+			Regex regex;
 			try
 			{
 				regex = CreateRegex();
@@ -1684,10 +1681,10 @@ namespace RegexTest
 
 		}
 
-		private void Replace_Click(object sender, System.EventArgs e)
+		private void Replace_Click(object sender, EventArgs e)
 		{
 			SaveValues();
-			Regex regex = null;
+			Regex regex;
 			try
 			{
 				regex = CreateRegex();
@@ -1730,8 +1727,8 @@ namespace RegexTest
 			{
 				outString.Append(String.Format("Replacing: {0}\r\n", s));
 				
-				string output = null;
-				if (this.MatchEvaluator.Checked)
+				string output;
+				if (MatchEvaluator.Checked)
 				{
 					outString.Append("  with a custom MatchEvaluator\r\n");	
 					output = regex.Replace(s, replacer.MatchEvaluator);
@@ -1746,7 +1743,7 @@ namespace RegexTest
 			Output.Text = outString.ToString();
 		}
 
-		private void makeAssemblyItem_Click(object sender, System.EventArgs e)
+		private void makeAssemblyItem_Click(object sender, EventArgs e)
 		{
 			MakeAssemblyDialog dialog = new MakeAssemblyDialog();
 			if (dialog.ShowDialog() == DialogResult.OK)
@@ -1806,7 +1803,7 @@ Regex r = new Regex(
 			#endif
 		}
 
-		private void RegexText_Leave(object sender, System.EventArgs e)
+		private void RegexText_Leave(object sender, EventArgs e)
 		{
 			regexInsertionPoint = RegexText.SelectionStart;
 		}
@@ -1815,7 +1812,7 @@ Regex r = new Regex(
 			// pick on the context menu.
 			// Rather than figure out which, we just update both. 
 			// (yes, I know, it's inefficient)
-		private void addItem_Popup(object sender, System.EventArgs e)
+		private void addItem_Popup(object sender, EventArgs e)
 		{
 			UpdateBackreferences(addItem, BackReferenceMenuItem);
 			UpdateBackreferences(contextMenuAddItems, contextMenuBackreferences);
@@ -1847,7 +1844,7 @@ Regex r = new Regex(
 			{
 				string name = m.Groups["Name"].Value;
 				string item = String.Format("{0} - \\k<{1}>", name, name);
-				MenuItem menuItem = new MenuItem(item, new System.EventHandler(this.addItem_Click));
+				MenuItem menuItem = new MenuItem(item, addItem_Click);
 				BackReferenceMenuItem.MenuItems.Add(menuItem);
 				m = m.NextMatch();
 			}
@@ -1870,7 +1867,7 @@ Regex r = new Regex(
 				while (m.Success)
 				{
 					string item = String.Format("{0} - \\<{1}>", number, number);
-					MenuItem menuItem = new MenuItem(item, new System.EventHandler(this.addItem_Click));
+					MenuItem menuItem = new MenuItem(item, addItem_Click);
 					BackReferenceMenuItem.MenuItems.Add(menuItem);
 					number++;
 					m = m.NextMatch();
@@ -1882,7 +1879,7 @@ Regex r = new Regex(
 		}
 
 		
-		private void addItem_Click(object sender, System.EventArgs e)
+		private void addItem_Click(object sender, EventArgs e)
 		{
 			MenuItem menuItem = (MenuItem) sender;
 
@@ -1892,8 +1889,8 @@ Regex r = new Regex(
 			{
 				string insert = match.Groups["Placeholder"].ToString();
 				regexInsertionPoint = RegexText.SelectionStart;
-				string start = "";
-				string end = "";
+				string start;
+				string end;
 
 				//try
 				//{
@@ -1985,7 +1982,7 @@ Regex r = new Regex(
 			}
 		}
 
-	    private RegexTest.HoverDetailAction RegexText_HoverDetail(object sender, RegexTest.HoverEventArgs args)
+	    private HoverDetailAction RegexText_HoverDetail(object sender, HoverEventArgs args)
 		{
 			HoverDetailAction action = null;
 			if (!HoverInterpret.Checked)
@@ -2011,28 +2008,28 @@ Regex r = new Regex(
 			return action;
 		}
 
-		private void RegexText_Enter(object sender, System.EventArgs e)
+		private void RegexText_Enter(object sender, EventArgs e)
 		{
 			bufferDirty = true;
 		}
 
-		private void RegexText_TextChanged_1(object sender, System.EventArgs e)
+		private void RegexText_TextChanged_1(object sender, EventArgs e)
 		{
 			bufferDirty = true;
 		}
 
-		private void IgnoreWhitespace_CheckedChanged(object sender, System.EventArgs e)
+		private void IgnoreWhitespace_CheckedChanged(object sender, EventArgs e)
 		{
 			bufferDirty = true;
 		}
 
-		private void ExplicitCapture_CheckedChanged(object sender, System.EventArgs e)
+		private void ExplicitCapture_CheckedChanged(object sender, EventArgs e)
 		{
 			bufferDirty = true;
 		}
 
 			// get the contents of a C# regex, and make it nicer...
-		private void pasteFromCSharp_Click(object sender, System.EventArgs e)
+		private void pasteFromCSharp_Click(object sender, EventArgs e)
 		{
 			IDataObject clipboard = Clipboard.GetDataObject();
 			string value = (string) clipboard.GetData(typeof(string));
@@ -2078,52 +2075,52 @@ Regex r = new Regex(
 
 					// clear all the patterns, and then set the ones
 					// that are on...
-				this.IgnoreCase.Checked = false;
-				this.IgnoreWhitespace.Checked = false;
-				this.Multiline.Checked = false;
-				this.Singleline.Checked = false;
-				this.Compiled.Checked = false;
-				this.ExplicitCapture.Checked = false;
+				IgnoreCase.Checked = false;
+				IgnoreWhitespace.Checked = false;
+				Multiline.Checked = false;
+				Singleline.Checked = false;
+				Compiled.Checked = false;
+				ExplicitCapture.Checked = false;
 
 				string rest = m.Groups["Rest"].Value;
 				if (rest.IndexOf("IgnoreCase") != -1)
-					this.IgnoreCase.Checked = true;
+					IgnoreCase.Checked = true;
 
 				if (rest.IndexOf("IgnorePatternWhitespace") != -1)
-					this.IgnoreWhitespace.Checked = true;
+					IgnoreWhitespace.Checked = true;
 
 				if (rest.IndexOf("Multiline") != -1)
-					this.Multiline.Checked = true;
+					Multiline.Checked = true;
 
 				if (rest.IndexOf("Singleline") != -1)
-					this.Singleline.Checked = true;
+					Singleline.Checked = true;
 
 				if (rest.IndexOf("Compiled") != -1)
-					this.Compiled.Checked = true;
+					Compiled.Checked = true;
 
 				if (rest.IndexOf("ExplicitCapture") != -1)
-					this.ExplicitCapture.Checked = true;
+					ExplicitCapture.Checked = true;
 			}
 
 				// change any double "" to "
 			RegexText.Text = value.Replace("\"\"", "\"");
 		}
 
-		private void copyAsCSharp_Click(object sender, System.EventArgs e)
+		private void copyAsCSharp_Click(object sender, EventArgs e)
 		{
 			string csharpSource = MakeCSharpString();
 			Clipboard.SetDataObject(csharpSource);
-			this.Output.Text = csharpSource;		
+			Output.Text = csharpSource;		
 		}
 
-		private void copyAsVB_Click(object sender, System.EventArgs e)
+		private void copyAsVB_Click(object sender, EventArgs e)
 		{
 			string vbSource = MakeVBString();
 			Clipboard.SetDataObject(vbSource);
-			this.Output.Text = vbSource;		
+			Output.Text = vbSource;		
 		}
 
-		private void saveRegex_Click(object sender, System.EventArgs e)
+		private void saveRegex_Click(object sender, EventArgs e)
 		{
 			Directory.CreateDirectory("library");
 			SaveRegex saveRegexDialog = new SaveRegex();
@@ -2133,7 +2130,7 @@ Regex r = new Regex(
 			}
 		}
 
-		private void libraryItem_Click(object sender, System.EventArgs e)
+		private void libraryItem_Click(object sender, EventArgs e)
 		{
 			LibraryMenuItem menuItem = (LibraryMenuItem) sender;
 			LoadRegex(menuItem.Filename);
@@ -2155,73 +2152,73 @@ Regex r = new Regex(
 					LibraryMenuItem fileMenuItem = 
 						new LibraryMenuItem(fileInfo.FullName,
 											fileInfo.Name,
-											new EventHandler(libraryItem_Click));
+											libraryItem_Click);
 					collection.Add(fileMenuItem);
 				}
 			}
 		}
 
-		private void library_Popup(object sender, System.EventArgs e)
+		private void library_Popup(object sender, EventArgs e)
 		{
-			this.library.MenuItems.Clear();
+			library.MenuItems.Clear();
 
 			DirectoryInfo dirInfo = new DirectoryInfo(currentDirectory + @"\library");
 			CreateLibrary(dirInfo, library.MenuItems);
 		}
 
-		private void contextMenu1_Popup(object sender, System.EventArgs e)
+		private void contextMenu1_Popup(object sender, EventArgs e)
 		{
 		
 		}
 
-		private void undoMenuItem_Click(object sender, System.EventArgs e)
+		private void undoMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.Undo();
 		}
 
-		private void cutMenuItem_Click(object sender, System.EventArgs e)
+		private void cutMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.Cut();
 		}
 
-		private void copyMenuItem_Click(object sender, System.EventArgs e)
+		private void copyMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.Copy();
 		}
 
-		private void pasteMenuItem_Click(object sender, System.EventArgs e)
+		private void pasteMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.Paste();
 		}
 
-		private void deleteMenuItem_Click(object sender, System.EventArgs e)
+		private void deleteMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.Clear();
 		}
 
-		private void selectAllMenuItem_Click(object sender, System.EventArgs e)
+		private void selectAllMenuItem_Click(object sender, EventArgs e)
 		{
 			RegexText.SelectAll();
 		}
 
-	    private void MatchEvaluator_CheckedChanged(object sender, System.EventArgs e)
+	    private void MatchEvaluator_CheckedChanged(object sender, EventArgs e)
 		{
 			if (MatchEvaluator.Checked)
 			{
-				this.ReplaceString.Text = 
+				ReplaceString.Text = 
 					"static public string Evaluator(Match match) {\r\n" +
 					"    return \"Fred\";\r\n" +
 					"}";
 			}
 		}
 
-		private void menuItem71_Click(object sender, System.EventArgs e)
+		private void menuItem71_Click(object sender, EventArgs e)
 		{
 			About about = new About();
 			about.ShowDialog();
 		}
 
-		private void menuReleaseNotes_Click(object sender, System.EventArgs e)
+		private void menuReleaseNotes_Click(object sender, EventArgs e)
 		{
 			ReleaseNotes releaseNotes = new ReleaseNotes();
 			releaseNotes.ShowDialog();

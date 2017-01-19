@@ -43,7 +43,7 @@ namespace RegexTest
 					if (bufChar.Length != 0)
 					{
 						buf.Append(new String(' ', indent));
-						buf.Append(bufChar.ToString() + "\r\n");
+						buf.Append(bufChar + "\r\n");
 						bufChar = new StringBuilder();
 					}
 					buf.Append(new String(' ', indent));
@@ -62,8 +62,7 @@ namespace RegexTest
 			if (bufChar.Length != 0)
 			{
 				buf.Append(new String(' ', indent));
-				buf.Append(bufChar.ToString() + "\r\n");
-				bufChar = new StringBuilder();
+				buf.Append(bufChar + "\r\n");
 			}
 			return buf.ToString();
 		}

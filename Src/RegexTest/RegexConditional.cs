@@ -1,6 +1,4 @@
 using System;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
@@ -31,7 +29,7 @@ namespace RegexTest
 		void CheckClosingParen(RegexBuffer buffer)
 		{
 			// check for closing ")"
-			char current = ' ';
+			char current;
 			try
 			{
 				current = buffer.Current;
@@ -42,7 +40,7 @@ namespace RegexTest
 				buffer.ErrorLocation = startLocation;
 				buffer.ErrorLength = 1;
 				throw new Exception(
-					String.Format("Missing closing ')' in capture"), e);
+					"Missing closing \')\' in capture", e);
 			}
 			if (current != ')')
 			{
