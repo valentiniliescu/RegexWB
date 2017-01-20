@@ -89,7 +89,7 @@ namespace RegexTest
                 }
                 else
                 {
-                    _expressionLookup.Add(new RegexRef(item, startLocation, endLocation));
+                    _expressionLookup.Add(new RegexRef(item.ToString(0), startLocation, endLocation));
                     _inSeries = false;
                 }
             }
@@ -97,7 +97,7 @@ namespace RegexTest
             {
                 if (canCoalesce)
                     _inSeries = true;
-                _expressionLookup.Add(new RegexRef(item, startLocation, endLocation));
+                _expressionLookup.Add(new RegexRef(item.ToString(0), startLocation, endLocation));
             }
         }
 

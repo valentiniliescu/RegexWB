@@ -2,16 +2,13 @@ using System;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for RegexRef.
-    /// </summary>
     public class RegexRef : IComparable
     {
         private int _end;
 
-        public RegexRef(IRegexItem regexItem, int start, int end)
+        public RegexRef(string stringValue, int start, int end)
         {
-            StringValue = regexItem.ToString(0);
+            StringValue = stringValue;
             Start = start;
             _end = end;
         }
