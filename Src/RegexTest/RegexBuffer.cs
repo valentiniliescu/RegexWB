@@ -66,17 +66,12 @@ namespace RegexTest
             Offset++;
         }
 
-        public void AddLookup(IRegexItem item, int startLocation, int endLocation)
-        {
-            AddLookup(item, startLocation, endLocation, false);
-        }
-
         public void ClearInSeries()
         {
             _inSeries = false;
         }
 
-        public void AddLookup(IRegexItem item, int startLocation, int endLocation, bool canCoalesce)
+        public void AddLookup(IRegexItem item, int startLocation, int endLocation, bool canCoalesce = false)
         {
             if (_inSeries)
             {
