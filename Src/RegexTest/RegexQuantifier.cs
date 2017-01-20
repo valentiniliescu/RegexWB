@@ -2,10 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for RegexQuantifier.
-    /// </summary>
-    public class RegexQuantifier : RegexItem
+    public sealed class RegexQuantifier : IRegexItem
     {
         private readonly string _description;
 
@@ -47,7 +44,7 @@ namespace RegexTest
             buffer.AddLookup(this, startLoc, buffer.Offset - 1);
         }
 
-        public override string ToString(int offset)
+        public string ToString(int offset)
         {
             return _description;
         }

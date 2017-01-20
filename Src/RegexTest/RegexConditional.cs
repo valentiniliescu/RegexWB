@@ -2,10 +2,7 @@ using System;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for RegexConditional.
-    /// </summary>
-    public class RegexConditional : RegexItem
+    public sealed class RegexConditional : IRegexItem
     {
         private readonly RegexExpression _expression;
         private readonly int _startLocation;
@@ -49,7 +46,7 @@ namespace RegexTest
             buffer.Offset++; // eat closing parenthesis
         }
 
-        public override string ToString(int offset)
+        public string ToString(int offset)
         {
             var indent = new string(' ', offset);
             string result;
@@ -58,7 +55,7 @@ namespace RegexTest
             result += indent + "match: ";
 
             // walk through until we find an alternation
-            foreach (RegexItem item in _yesNo.Items)
+            foreach (IRegexItem item in _yesNo.Items)
                 if (item is RegexAlternate)
                     result += "\r\n" + indent + "else match: ";
                 else

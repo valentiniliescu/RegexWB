@@ -66,7 +66,7 @@ namespace RegexTest
             Offset++;
         }
 
-        public void AddLookup(RegexItem item, int startLocation, int endLocation)
+        public void AddLookup(IRegexItem item, int startLocation, int endLocation)
         {
             AddLookup(item, startLocation, endLocation, false);
         }
@@ -76,7 +76,7 @@ namespace RegexTest
             _inSeries = false;
         }
 
-        public void AddLookup(RegexItem item, int startLocation, int endLocation, bool canCoalesce)
+        public void AddLookup(IRegexItem item, int startLocation, int endLocation, bool canCoalesce)
         {
             if (_inSeries)
             {

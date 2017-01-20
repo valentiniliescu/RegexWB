@@ -4,10 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for RegexExpression.
-    /// </summary>
-    public class RegexExpression : RegexItem
+    public sealed class RegexExpression : IRegexItem
     {
         public RegexExpression(RegexBuffer buffer)
         {
@@ -16,12 +13,12 @@ namespace RegexTest
 
         public ArrayList Items { get; } = new ArrayList();
 
-        public override string ToString(int indent)
+        public string ToString(int indent)
         {
             var buf = new StringBuilder();
             var bufChar = new StringBuilder();
 
-            foreach (RegexItem item in Items)
+            foreach (IRegexItem item in Items)
             {
                 var regexChar = item as RegexCharacter;
                 if (regexChar != null && !regexChar.Special)

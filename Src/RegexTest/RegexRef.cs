@@ -9,7 +9,7 @@ namespace RegexTest
     {
         private int _end;
 
-        public RegexRef(RegexItem regexItem, int start, int end)
+        public RegexRef(IRegexItem regexItem, int start, int end)
         {
             StringValue = regexItem.ToString(0);
             Start = start;

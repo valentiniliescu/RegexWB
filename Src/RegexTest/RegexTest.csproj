@@ -150,7 +150,7 @@
     <Compile Include="RegexExpression.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RegexItem.cs">
+    <Compile Include="IRegexItem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RegexQuantifier.cs">

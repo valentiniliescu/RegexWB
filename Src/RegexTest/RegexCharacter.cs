@@ -3,10 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for Class1.
-    /// </summary>
-    public class RegexCharacter : RegexItem
+    public sealed class RegexCharacter : IRegexItem
     {
         private string _character;
 
@@ -189,7 +186,7 @@ namespace RegexTest
 
 #endif
 
-        public override string ToString(int offset)
+        public string ToString(int offset)
         {
             return _character;
         }

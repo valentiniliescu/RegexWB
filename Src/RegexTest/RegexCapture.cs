@@ -4,14 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
-    /// <summary>
-    ///     Summary description for RegexCapture.
-    /// </summary>
-    public class RegexCapture : RegexItem
+    public sealed class RegexCapture : IRegexItem
     {
         private static readonly Hashtable OptionNames = new Hashtable();
         private string _description = "Capture";
-        private RegexItem _expression;
+        private IRegexItem _expression;
         private readonly int _startLocation;
 
         static RegexCapture()
@@ -295,7 +292,7 @@ namespace RegexTest
             }
         }
 
-        public override string ToString(int offset)
+        public string ToString(int offset)
         {
             var result = _description;
             if (_expression != null)

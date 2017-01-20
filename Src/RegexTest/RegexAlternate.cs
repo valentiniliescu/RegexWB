@@ -1,6 +1,6 @@
 namespace RegexTest
 {
-    internal class RegexAlternate : RegexItem
+    internal sealed class RegexAlternate : IRegexItem
     {
         public RegexAlternate(RegexBuffer buffer)
         {
@@ -9,7 +9,7 @@ namespace RegexTest
             buffer.MoveNext(); // skip "|"
         }
 
-        public override string ToString(int offset)
+        public string ToString(int offset)
         {
             return new string(' ', offset) + "or";
         }
