@@ -13,11 +13,12 @@ namespace RegexTest
 
         private readonly ArrayList _expressionLookup = new ArrayList();
         private bool _inSeries;
-        private RegexOptions _regexOptions;
+        private readonly RegexOptions _regexOptions;
 
-        public RegexBuffer(string expression)
+        public RegexBuffer(string expression, RegexOptions regexOptions = RegexOptions.None)
         {
             _expression = expression;
+            _regexOptions = regexOptions;
         }
 
         public char Current
@@ -30,36 +31,19 @@ namespace RegexTest
             }
         }
 
-        public bool AtEnd
-        {
-            get { return Offset >= _expression.Length; }
-        }
+        public bool AtEnd => Offset >= _expression.Length;
 
         public int Offset { get; set; }
 
-        public string String
-        {
-            get { return _expression.Substring(Offset); }
-        }
+        public string String => _expression.Substring(Offset);
 
         public int ErrorLocation { get; set; } = -1;
 
         public int ErrorLength { get; set; } = -1;
 
-        public RegexOptions RegexOptions
-        {
-            set { _regexOptions = value; }
-        }
+        public bool IgnorePatternWhitespace => (_regexOptions & RegexOptions.IgnorePatternWhitespace) != 0;
 
-        public bool IgnorePatternWhitespace
-        {
-            get { return (_regexOptions & RegexOptions.IgnorePatternWhitespace) != 0; }
-        }
-
-        public bool ExplicitCapture
-        {
-            get { return (_regexOptions & RegexOptions.ExplicitCapture) != 0; }
-        }
+        public bool ExplicitCapture => (_regexOptions & RegexOptions.ExplicitCapture) != 0;
 
         public void MoveNext()
         {

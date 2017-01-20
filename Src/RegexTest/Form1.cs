@@ -1552,8 +1552,7 @@ namespace RegexTest
         {
             SaveValues();
 
-            _buffer = new RegexBuffer(_regexText.Text);
-            _buffer.RegexOptions = CreateRegexOptions();
+            _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
             try
             {
                 var exp = new RegexExpression(_buffer);
@@ -1897,8 +1896,7 @@ Regex r = new Regex(
         {
             if (_bufferDirty)
             {
-                _buffer = new RegexBuffer(_regexText.Text);
-                _buffer.RegexOptions = CreateRegexOptions();
+                _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
                 _bufferDirty = false;
             }
         }
