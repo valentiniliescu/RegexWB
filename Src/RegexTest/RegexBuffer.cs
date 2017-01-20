@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace RegexTest
@@ -11,7 +11,7 @@ namespace RegexTest
     {
         private readonly string _expression;
 
-        private readonly ArrayList _expressionLookup = new ArrayList();
+        private readonly IList<RegexRef> _expressionLookup = new List<RegexRef>();
         private bool _inSeries;
         private readonly RegexOptions _regexOptions;
 
@@ -62,7 +62,7 @@ namespace RegexTest
                 // in a series, add character to the previous one...
                 if (canCoalesce)
                 {
-                    var lastItem = (RegexRef) _expressionLookup[_expressionLookup.Count - 1];
+                    var lastItem = _expressionLookup[_expressionLookup.Count - 1];
                     _expressionLookup[_expressionLookup.Count - 1] = new RegexRef(lastItem.StringValue + item.ToString(0), lastItem.Start, endLocation );
                 }
                 else
@@ -81,13 +81,13 @@ namespace RegexTest
 
         public RegexRef MatchLocations(int spot)
         {
-            var locations = new ArrayList();
+            var locations = new List<RegexRef>();
             foreach (RegexRef regexRef in _expressionLookup)
                 if (regexRef.InRange(spot))
                     locations.Add(regexRef);
             locations.Sort();
             if (locations.Count != 0)
-                return (RegexRef) locations[0];
+                return locations[0];
             return null;
         }
     }

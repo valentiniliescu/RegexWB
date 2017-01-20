@@ -2,7 +2,7 @@ using System;
 
 namespace RegexTest
 {
-    public class RegexRef : IComparable
+    public class RegexRef : IComparable<RegexRef>
     { 
         public RegexRef(string stringValue, int start, int end)
         {
@@ -19,9 +19,8 @@ namespace RegexTest
 
         public int Length => End - Start + 1;
 
-        public int CompareTo(object o2)
+        public int CompareTo(RegexRef ref2)
         {
-            var ref2 = (RegexRef) o2;
             if (Length < ref2.Length)
                 return -1;
             if (Length > ref2.Length)
