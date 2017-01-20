@@ -3,25 +3,21 @@ using System;
 namespace RegexTest
 {
     public class RegexRef : IComparable
-    {
-        private int _end;
-
+    { 
         public RegexRef(string stringValue, int start, int end)
         {
             StringValue = stringValue;
             Start = start;
-            _end = end;
+            End = end;
         }
 
-        public string StringValue { get; set; }
+        public string StringValue { get; }
 
         public int Start { get; }
 
-        public int Length
-        {
-            get { return _end - Start + 1; }
-            set { _end = Start + value - 1; }
-        }
+        public int End { get; }
+
+        public int Length => End - Start + 1;
 
         public int CompareTo(object o2)
         {
@@ -35,7 +31,7 @@ namespace RegexTest
 
         public bool InRange(int location)
         {
-            if (location >= Start && location <= _end)
+            if (location >= Start && location <= End)
                 return true;
             return false;
         }

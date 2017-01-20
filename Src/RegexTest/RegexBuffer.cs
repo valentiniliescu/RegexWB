@@ -63,8 +63,7 @@ namespace RegexTest
                 if (canCoalesce)
                 {
                     var lastItem = (RegexRef) _expressionLookup[_expressionLookup.Count - 1];
-                    lastItem.StringValue += item.ToString(0);
-                    lastItem.Length += endLocation - startLocation + 1;
+                    _expressionLookup[_expressionLookup.Count - 1] = new RegexRef(lastItem.StringValue + item.ToString(0), lastItem.Start, endLocation );
                 }
                 else
                 {
