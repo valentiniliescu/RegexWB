@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace RegexTest
@@ -81,14 +82,7 @@ namespace RegexTest
 
         public RegexRef MatchLocations(int spot)
         {
-            var locations = new List<RegexRef>();
-            foreach (RegexRef regexRef in _expressionLookup)
-                if (regexRef.InRange(spot))
-                    locations.Add(regexRef);
-            locations.Sort();
-            if (locations.Count != 0)
-                return locations[0];
-            return null;
+            return _expressionLookup.Where(regexRef => regexRef.InRange(spot)).DefaultIfEmpty().Min();
         }
     }
 }
