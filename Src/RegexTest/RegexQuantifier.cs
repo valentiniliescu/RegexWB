@@ -41,7 +41,8 @@ namespace RegexTest
             {
                 _description = "missing '}' in quantifier";
             }
-            buffer.ExpressionLookup.AddLookup(this, startLoc, buffer.Offset - 1);
+            int endLocation = buffer.Offset - 1;
+            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
         }
 
         public string ToString(int offset)

@@ -13,7 +13,7 @@ namespace RegexTest
             _inSeries = false;
         }
 
-        public void AddLookup(IRegexItem item, int startLocation, int endLocation, bool canCoalesce = false)
+        public void AddLookup(RegexRef regexRef, bool canCoalesce = false)
         {
             if (_inSeries)
             {
@@ -21,11 +21,11 @@ namespace RegexTest
                 if (canCoalesce)
                 {
                     var lastItem = _expressionLookup[_expressionLookup.Count - 1];
-                    _expressionLookup[_expressionLookup.Count - 1] = new RegexRef(lastItem.StringValue + item.ToString(0), lastItem.Start, endLocation );
+                    _expressionLookup[_expressionLookup.Count - 1] = new RegexRef(lastItem.StringValue + regexRef.StringValue, lastItem.Start, regexRef.End );
                 }
                 else
                 {
-                    _expressionLookup.Add(new RegexRef(item.ToString(0), startLocation, endLocation));
+                    _expressionLookup.Add(regexRef);
                     _inSeries = false;
                 }
             }
@@ -33,7 +33,7 @@ namespace RegexTest
             {
                 if (canCoalesce)
                     _inSeries = true;
-                _expressionLookup.Add(new RegexRef(item.ToString(0), startLocation, endLocation));
+                _expressionLookup.Add(regexRef);
             }
         }
 

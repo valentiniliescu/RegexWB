@@ -72,7 +72,8 @@ namespace RegexTest
                     _character += " (non-greedy)";
                     buffer.MoveNext();
                 }
-            buffer.ExpressionLookup.AddLookup(this, startLoc, buffer.Offset - 1, _character.Length == 1);
+            int endLocation = buffer.Offset - 1;
+            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation), _character.Length == 1);
         }
 
         private static readonly Hashtable Escaped = new Hashtable();

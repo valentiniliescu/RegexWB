@@ -4,7 +4,9 @@ namespace RegexTest
     {
         public RegexAlternate(RegexBuffer buffer)
         {
-            buffer.ExpressionLookup.AddLookup(this, buffer.Offset, buffer.Offset);
+            int startLocation = buffer.Offset;
+            int endLocation = buffer.Offset;
+            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLocation, endLocation));
 
             buffer.MoveNext(); // skip "|"
         }
