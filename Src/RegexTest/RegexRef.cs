@@ -34,5 +34,10 @@ namespace RegexTest
                 return true;
             return false;
         }
+
+        public static RegexRef Coalesce(RegexRef item1, RegexRef item2)
+        {
+            return new RegexRef(item1.StringValue + item2.StringValue, item1.Start, item2.End );
+        }
     }
 }
