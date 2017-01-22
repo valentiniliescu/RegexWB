@@ -31,7 +31,7 @@ namespace RegexTest
             buffer.MoveNext();
 
             // we're not in a series of normal characters, so clear
-            buffer.ClearInSeries();
+            buffer.ExpressionLookup.ClearInSeries();
 
             // if the first character of the capture is a '?',
             // we need to decode what comes after it.
@@ -64,7 +64,7 @@ namespace RegexTest
                     throw new Exception(
                         string.Format("Unrecognized capture: {0}", buffer.String));
             }
-            buffer.AddLookup(this, _startLocation, buffer.Offset - 1);
+            buffer.ExpressionLookup.AddLookup(this, _startLocation, buffer.Offset - 1);
         }
 
         private void CheckClosingParen(RegexBuffer buffer)

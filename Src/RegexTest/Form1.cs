@@ -1918,7 +1918,7 @@ Regex r = new Regex(
                 return null;
             }
 
-            var regexRef = _buffer.MatchLocations(args.CharacterOffset);
+            var regexRef = _buffer.ExpressionLookup.MatchLocations(args.CharacterOffset);
             if (regexRef != null)
                 action = new HoverDetailAction(regexRef.Start, regexRef.Length, regexRef.StringValue);
             return action;

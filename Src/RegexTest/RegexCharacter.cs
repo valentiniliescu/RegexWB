@@ -72,7 +72,7 @@ namespace RegexTest
                     _character += " (non-greedy)";
                     buffer.MoveNext();
                 }
-            buffer.AddLookup(this, startLoc, buffer.Offset - 1, _character.Length == 1);
+            buffer.ExpressionLookup.AddLookup(this, startLoc, buffer.Offset - 1, _character.Length == 1);
         }
 
         private static readonly Hashtable Escaped = new Hashtable();

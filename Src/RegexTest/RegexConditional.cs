@@ -20,7 +20,7 @@ namespace RegexTest
             _yesNo = new RegexExpression(buffer);
             CheckClosingParen(buffer);
 
-            buffer.AddLookup(this, _startLocation, buffer.Offset - 1);
+            buffer.ExpressionLookup.AddLookup(this, _startLocation, buffer.Offset - 1);
         }
 
         private void CheckClosingParen(RegexBuffer buffer)
