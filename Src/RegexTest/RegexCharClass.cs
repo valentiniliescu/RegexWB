@@ -7,7 +7,7 @@ namespace RegexTest
         //RegexExpression expression;
         private readonly string _description;
 
-        public RegexCharClass(RegexBuffer buffer)
+        public RegexCharClass(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
 
@@ -34,7 +34,7 @@ namespace RegexTest
                 _description = "missing ']' in character class";
             }
             int endLocation = buffer.Offset - 1;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
         }
 
         public string ToString(int offset)

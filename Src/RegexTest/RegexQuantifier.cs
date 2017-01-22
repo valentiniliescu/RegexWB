@@ -6,7 +6,7 @@ namespace RegexTest
     {
         private readonly string _description;
 
-        public RegexQuantifier(RegexBuffer buffer)
+        public RegexQuantifier(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
             buffer.MoveNext();
@@ -42,7 +42,7 @@ namespace RegexTest
                 _description = "missing '}' in quantifier";
             }
             int endLocation = buffer.Offset - 1;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
         }
 
         public string ToString(int offset)

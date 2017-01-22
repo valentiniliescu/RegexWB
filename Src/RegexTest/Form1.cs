@@ -1555,7 +1555,7 @@ namespace RegexTest
             _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
             try
             {
-                var exp = new RegexExpression(_buffer);
+                var exp = new RegexExpression(_buffer, _buffer.ExpressionLookup);
 
                 _output.Text = exp.ToString(0);
             }
@@ -1910,7 +1910,7 @@ Regex r = new Regex(
             UpdateBuffer();
             try
             {
-                new RegexExpression(_buffer);
+                new RegexExpression(_buffer, _buffer.ExpressionLookup);
             }
             catch (Exception e)
             {

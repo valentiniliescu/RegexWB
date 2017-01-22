@@ -2,11 +2,11 @@ namespace RegexTest
 {
     internal sealed class RegexAlternate : IRegexItem
     {
-        public RegexAlternate(RegexBuffer buffer)
+        public RegexAlternate(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             int startLocation = buffer.Offset;
             int endLocation = buffer.Offset;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLocation, endLocation));
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLocation, endLocation));
 
             buffer.MoveNext(); // skip "|"
         }

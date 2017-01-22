@@ -6,9 +6,9 @@ namespace RegexTest
 {
     public sealed class RegexExpression : IRegexItem
     {
-        public RegexExpression(RegexBuffer buffer)
+        public RegexExpression(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
-            Parse(buffer);
+            Parse(buffer, expressionLookup);
         }
 
         public ArrayList Items { get; } = new ArrayList();
@@ -60,7 +60,7 @@ namespace RegexTest
                 buffer.MoveNext();
         }
 
-        private void Parse(RegexBuffer buffer)
+        private void Parse(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             while (!buffer.AtEnd)
                 if (buffer.IgnorePatternWhitespace &&
@@ -73,7 +73,7 @@ namespace RegexTest
                     switch (buffer.Current)
                     {
                         case '(':
-                            Items.Add(new RegexCapture(buffer));
+                            Items.Add(new RegexCapture(buffer, expressionLookup));
                             break;
 
                         case ')':
@@ -81,30 +81,30 @@ namespace RegexTest
                             return;
 
                         case '[':
-                            Items.Add(new RegexCharClass(buffer));
+                            Items.Add(new RegexCharClass(buffer, expressionLookup));
                             break;
 
                         case '{':
-                            Items.Add(new RegexQuantifier(buffer));
+                            Items.Add(new RegexQuantifier(buffer, expressionLookup));
                             break;
 
                         case '|':
-                            Items.Add(new RegexAlternate(buffer));
+                            Items.Add(new RegexAlternate(buffer, expressionLookup));
                             break;
 
                         case '\\':
-                            Items.Add(new RegexCharacter(buffer));
+                            Items.Add(new RegexCharacter(buffer, expressionLookup));
                             break;
 
                         case '#':
                             if (buffer.IgnorePatternWhitespace)
                                 EatComment(buffer);
                             else
-                                Items.Add(new RegexCharacter(buffer));
+                                Items.Add(new RegexCharacter(buffer, expressionLookup));
                             break;
 
                         default:
-                            Items.Add(new RegexCharacter(buffer));
+                            Items.Add(new RegexCharacter(buffer, expressionLookup));
                             break;
                     }
         }

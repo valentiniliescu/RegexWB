@@ -10,18 +10,18 @@ namespace RegexTest
 
         // Handle (?(expression)yes|no)
         // when we get called, we're pointing to the first character of the expression
-        public RegexConditional(RegexBuffer buffer)
+        public RegexConditional(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             _startLocation = buffer.Offset;
 
-            _expression = new RegexExpression(buffer);
+            _expression = new RegexExpression(buffer, expressionLookup);
             CheckClosingParen(buffer);
 
-            _yesNo = new RegexExpression(buffer);
+            _yesNo = new RegexExpression(buffer, expressionLookup);
             CheckClosingParen(buffer);
 
             int endLocation = buffer.Offset - 1;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
         }
 
         private void CheckClosingParen(RegexBuffer buffer)

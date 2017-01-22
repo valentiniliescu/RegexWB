@@ -7,7 +7,7 @@ namespace RegexTest
     {
         private string _character;
 
-        public RegexCharacter(RegexBuffer buffer)
+        public RegexCharacter(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
             var quantifier = false;
@@ -73,7 +73,7 @@ namespace RegexTest
                     buffer.MoveNext();
                 }
             int endLocation = buffer.Offset - 1;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation), _character.Length == 1);
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation), _character.Length == 1);
         }
 
         private static readonly Hashtable Escaped = new Hashtable();

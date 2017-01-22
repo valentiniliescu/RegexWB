@@ -25,47 +25,47 @@ namespace RegexTest
             OptionNames.Add("-x", "Ignore Whitespace Off");
         }
 
-        public RegexCapture(RegexBuffer buffer)
+        public RegexCapture(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             _startLocation = buffer.Offset;
             buffer.MoveNext();
 
             // we're not in a series of normal characters, so clear
-            buffer.ExpressionLookup.ClearInSeries();
+            expressionLookup.ClearInSeries();
 
             // if the first character of the capture is a '?',
             // we need to decode what comes after it.
             if (buffer.Current == '?')
             {
-                var decoded = CheckNamed(buffer);
+                var decoded = CheckNamed(buffer, expressionLookup);
 
                 if (!decoded)
-                    decoded = CheckBalancedGroup(buffer);
+                    decoded = CheckBalancedGroup(buffer, expressionLookup);
 
                 if (!decoded)
-                    decoded = CheckNonCapturing(buffer);
+                    decoded = CheckNonCapturing(buffer, expressionLookup);
 
                 if (!decoded)
                     decoded = CheckOptions(buffer);
 
                 if (!decoded)
-                    decoded = CheckLookahead(buffer);
+                    decoded = CheckLookahead(buffer, expressionLookup);
 
                 if (!decoded)
-                    decoded = CheckNonBacktracking(buffer);
+                    decoded = CheckNonBacktracking(buffer, expressionLookup);
 
                 if (!decoded)
-                    CheckConditional(buffer);
+                    CheckConditional(buffer, expressionLookup);
             }
             else
                 // plain old capture...
             {
-                if (!HandlePlainOldCapture(buffer))
+                if (!HandlePlainOldCapture(buffer, expressionLookup))
                     throw new Exception(
                         string.Format("Unrecognized capture: {0}", buffer.String));
             }
             int endLocation = buffer.Offset - 1;
-            buffer.ExpressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
         }
 
         private void CheckClosingParen(RegexBuffer buffer)
@@ -91,7 +91,7 @@ namespace RegexTest
             buffer.Offset++; // eat closing parenthesis
         }
 
-        private bool HandlePlainOldCapture(RegexBuffer buffer)
+        private bool HandlePlainOldCapture(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             // we're already at the expression. Just create a new
             // expression, and make sure that we're at a ")" when 
@@ -99,12 +99,12 @@ namespace RegexTest
             if (buffer.ExplicitCapture)
                 _description = "Non-capturing Group";
 
-            _expression = new RegexExpression(buffer);
+            _expression = new RegexExpression(buffer, expressionLookup);
             CheckClosingParen(buffer);
             return true;
         }
 
-        private bool CheckNamed(RegexBuffer buffer)
+        private bool CheckNamed(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             Regex regex;
             Match match;
@@ -126,7 +126,7 @@ namespace RegexTest
 
                 // advance buffer to the rest of the expression
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexExpression(buffer);
+                _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -134,7 +134,7 @@ namespace RegexTest
             return false;
         }
 
-        private bool CheckNonCapturing(RegexBuffer buffer)
+        private bool CheckNonCapturing(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             // Look for non-capturing ?:
 
@@ -150,7 +150,7 @@ namespace RegexTest
                 _description = "Non-capturing Group";
 
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexExpression(buffer);
+                _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -159,7 +159,7 @@ namespace RegexTest
         }
 
 
-        private bool CheckBalancedGroup(RegexBuffer buffer)
+        private bool CheckBalancedGroup(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             // look for ?<Name1-Name2> or ?'Name1-Name2' syntax...
             // look for ?<Name> or ?'Name' syntax...
@@ -179,7 +179,7 @@ namespace RegexTest
             {
                 _description = string.Format("Balancing Group <{0}>-<{1}>", match.Groups["Name1"], match.Groups["Name2"]);
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexExpression(buffer);
+                _expression = new RegexExpression(buffer, expressionLookup);
                 CheckClosingParen(buffer);
                 return true;
             }
@@ -209,7 +209,7 @@ namespace RegexTest
             return false;
         }
 
-        private bool CheckLookahead(RegexBuffer buffer)
+        private bool CheckLookahead(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var regex = new Regex(@"
 				        ^                         # anchor to start of string
@@ -241,14 +241,14 @@ namespace RegexTest
                         break;
                 }
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexExpression(buffer);
+                _expression = new RegexExpression(buffer, expressionLookup);
                 CheckClosingParen(buffer);
                 return true;
             }
             return false;
         }
 
-        private bool CheckNonBacktracking(RegexBuffer buffer)
+        private bool CheckNonBacktracking(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             // Look for non-backtracking sub-expression ?>
 
@@ -264,7 +264,7 @@ namespace RegexTest
                 _description = "Non-backtracking subexpressio";
 
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexExpression(buffer);
+                _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -272,7 +272,7 @@ namespace RegexTest
             return false;
         }
 
-        private void CheckConditional(RegexBuffer buffer)
+        private void CheckConditional(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             // Look for conditional (?(name)yesmatch|nomatch)
             // (name can also be an expression)
@@ -289,7 +289,7 @@ namespace RegexTest
                 _description = "Conditional Subexpression";
 
                 buffer.Offset += match.Groups["Rest"].Index;
-                _expression = new RegexConditional(buffer);
+                _expression = new RegexConditional(buffer, expressionLookup);
             }
         }
 
