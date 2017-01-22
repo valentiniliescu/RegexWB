@@ -16,7 +16,6 @@ namespace RegexTest
         {
             _expression = expression;
             _regexOptions = regexOptions;
-            ExpressionLookup = new ExpressionLookup();
         }
 
         public char Current
@@ -42,8 +41,6 @@ namespace RegexTest
         public bool IgnorePatternWhitespace => (_regexOptions & RegexOptions.IgnorePatternWhitespace) != 0;
 
         public bool ExplicitCapture => (_regexOptions & RegexOptions.ExplicitCapture) != 0;
-
-        public ExpressionLookup ExpressionLookup { get; }
 
         public void MoveNext()
         {

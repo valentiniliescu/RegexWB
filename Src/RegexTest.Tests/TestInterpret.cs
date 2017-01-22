@@ -9,7 +9,7 @@ namespace RegexWorkbench.Tests
         private string Interpret(string regex)
         {
             var buffer = new RegexBuffer(regex);
-            var expression = new RegexExpression(buffer, buffer.ExpressionLookup);
+            var expression = new RegexExpression(buffer, new ExpressionLookup());
             var output = expression.ToString(0);
             return output;
         }

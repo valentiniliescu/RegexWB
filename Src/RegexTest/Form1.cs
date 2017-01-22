@@ -21,6 +21,7 @@ namespace RegexTest
         private MenuItem _addItem;
         private MenuItem _backReferenceMenuItem;
         private RegexBuffer _buffer;
+        private ExpressionLookup _expressionLookup;
         private bool _bufferDirty = true;
         private Button _button1;
         private SizeF _characterSize;
@@ -1553,9 +1554,10 @@ namespace RegexTest
             SaveValues();
 
             _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
+            _expressionLookup = new ExpressionLookup();
             try
             {
-                var exp = new RegexExpression(_buffer, _buffer.ExpressionLookup);
+                var exp = new RegexExpression(_buffer, _expressionLookup);
 
                 _output.Text = exp.ToString(0);
             }
@@ -1897,6 +1899,7 @@ Regex r = new Regex(
             if (_bufferDirty)
             {
                 _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
+                _expressionLookup = new ExpressionLookup();
                 _bufferDirty = false;
             }
         }
@@ -1910,7 +1913,7 @@ Regex r = new Regex(
             UpdateBuffer();
             try
             {
-                new RegexExpression(_buffer, _buffer.ExpressionLookup);
+                new RegexExpression(_buffer, _expressionLookup);
             }
             catch (Exception e)
             {
@@ -1918,7 +1921,7 @@ Regex r = new Regex(
                 return null;
             }
 
-            var regexRef = _buffer.ExpressionLookup.MatchLocations(args.CharacterOffset);
+            var regexRef = _expressionLookup.MatchLocations(args.CharacterOffset);
             if (regexRef != null)
                 action = new HoverDetailAction(regexRef.Start, regexRef.Length, regexRef.StringValue);
             return action;
