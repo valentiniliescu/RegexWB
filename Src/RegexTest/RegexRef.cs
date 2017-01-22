@@ -35,9 +35,9 @@ namespace RegexTest
             return false;
         }
 
-        public static RegexRef Coalesce(RegexRef item1, RegexRef item2)
+        public RegexRef Coalesce(RegexRef ref2)
         {
-            return new RegexRef(item1.StringValue + item2.StringValue, item1.Start, item2.End );
+            return new RegexRef(StringValue + ref2.StringValue, Start, ref2.End );
         }
     }
 }

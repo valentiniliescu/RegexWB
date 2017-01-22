@@ -21,7 +21,7 @@ namespace RegexTest
                 if (canCoalesce)
                 {
                     var lastItem = _expressionLookup[_expressionLookup.Count - 1];
-                    _expressionLookup[_expressionLookup.Count - 1] = RegexRef.Coalesce(lastItem, regexRef);
+                    _expressionLookup[_expressionLookup.Count - 1] = lastItem.Coalesce(regexRef);
                 }
                 else
                 {
