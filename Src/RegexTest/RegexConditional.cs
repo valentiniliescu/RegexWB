@@ -44,7 +44,7 @@ namespace RegexTest
                 throw new Exception(
                     string.Format("Unterminated closure at offset {0}",
                         buffer.Offset));
-            buffer.Offset++; // eat closing parenthesis
+            buffer.MoveNext(); // eat closing parenthesis
         }
 
         public string ToString(int offset)

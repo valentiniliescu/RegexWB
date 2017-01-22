@@ -29,7 +29,7 @@ namespace RegexTest
                 else
                     _description = string.Format("Exactly {0} times",
                         match.Groups["n"]);
-                buffer.Offset += match.Groups[0].Length;
+                buffer.MoveBy(match.Groups[0].Length);
 
                 if (!buffer.AtEnd && buffer.Current == '?')
                 {

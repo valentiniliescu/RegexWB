@@ -22,7 +22,7 @@ namespace RegexTest
         {
             get
             {
-                if (Offset >= _expression.Length)
+                if (AtEnd)
                     throw new Exception("Beyond end of buffer");
                 return _expression[Offset];
             }
@@ -30,7 +30,7 @@ namespace RegexTest
 
         public bool AtEnd => Offset >= _expression.Length;
 
-        public int Offset { get; set; }
+        public int Offset { get; private set; }
 
         public string String => _expression.Substring(Offset);
 
@@ -45,6 +45,11 @@ namespace RegexTest
         public void MoveNext()
         {
             Offset++;
+        }
+
+        public void MoveBy(int offset)
+        {
+            Offset += offset;
         }
     }
 }

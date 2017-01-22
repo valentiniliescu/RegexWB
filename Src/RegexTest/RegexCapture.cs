@@ -88,7 +88,7 @@ namespace RegexTest
                 throw new Exception(
                     string.Format("Unterminated closure at offset {0}",
                         buffer.Offset));
-            buffer.Offset++; // eat closing parenthesis
+            buffer.MoveNext(); // eat closing parenthesis
         }
 
         private bool HandlePlainOldCapture(RegexBuffer buffer, ExpressionLookup expressionLookup)
@@ -125,7 +125,7 @@ namespace RegexTest
                 _description = string.Format("Capture to <{0}>", match.Groups["Name"]);
 
                 // advance buffer to the rest of the expression
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
@@ -149,7 +149,7 @@ namespace RegexTest
             {
                 _description = "Non-capturing Group";
 
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
@@ -178,7 +178,7 @@ namespace RegexTest
             if (match.Success)
             {
                 _description = string.Format("Balancing Group <{0}>-<{1}>", match.Groups["Name1"], match.Groups["Name2"]);
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexExpression(buffer, expressionLookup);
                 CheckClosingParen(buffer);
                 return true;
@@ -203,7 +203,7 @@ namespace RegexTest
                 _description = string.Format("Set options to {0}",
                     OptionNames[option]);
                 _expression = null;
-                buffer.Offset += match.Groups[0].Length;
+                buffer.MoveBy(match.Groups[0].Length);
                 return true;
             }
             return false;
@@ -240,7 +240,7 @@ namespace RegexTest
                         _description = "zero-width negative lookbehind";
                         break;
                 }
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexExpression(buffer, expressionLookup);
                 CheckClosingParen(buffer);
                 return true;
@@ -263,7 +263,7 @@ namespace RegexTest
             {
                 _description = "Non-backtracking subexpressio";
 
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexExpression(buffer, expressionLookup);
 
                 CheckClosingParen(buffer);
@@ -288,7 +288,7 @@ namespace RegexTest
             {
                 _description = "Conditional Subexpression";
 
-                buffer.Offset += match.Groups["Rest"].Index;
+                buffer.MoveBy(match.Groups["Rest"].Index);
                 _expression = new RegexConditional(buffer, expressionLookup);
             }
         }

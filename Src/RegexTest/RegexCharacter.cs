@@ -123,7 +123,7 @@ namespace RegexTest
                             buffer.MoveNext();
                             var unicode = buffer.String.Substring(0, 4);
                             _character = "Unicode " + unicode;
-                            buffer.Offset += 4;
+                            buffer.MoveBy(4);
                             break;
 
                         case ' ':
@@ -142,7 +142,7 @@ namespace RegexTest
                             buffer.MoveNext();
                             var number = buffer.String.Substring(0, 2);
                             _character = "Hex " + number;
-                            buffer.Offset += 2;
+                            buffer.MoveBy(2);
                             break;
 
                         default:
@@ -172,7 +172,7 @@ namespace RegexTest
             {
                 Special = true;
                 _character = string.Format("Backreference to match: {0}", match.Groups["Name"]);
-                buffer.Offset += match.Groups[0].Length;
+                buffer.MoveBy(match.Groups[0].Length);
                 return true;
             }
             return false;

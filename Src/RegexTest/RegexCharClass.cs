@@ -27,7 +27,7 @@ namespace RegexTest
                 else
                     _description = string.Format("Any character in \"{0}\"",
                         match.Groups["Class"]);
-                buffer.Offset += match.Groups[0].Length;
+                buffer.MoveBy(match.Groups[0].Length);
             }
             else
             {
