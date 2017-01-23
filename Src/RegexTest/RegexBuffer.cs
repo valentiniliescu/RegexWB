@@ -23,7 +23,7 @@ namespace RegexTest
             get
             {
                 if (AtEnd)
-                    throw new Exception("Beyond end of buffer");
+                    throw new IndexOutOfRangeException();
                 return _expression[Offset];
             }
         }

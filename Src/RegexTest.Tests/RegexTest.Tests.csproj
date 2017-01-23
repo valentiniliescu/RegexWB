@@ -66,6 +66,7 @@
     <Compile Include="TestInterpretAnchor.cs" />
     <Compile Include="TestInterpretGrouping.cs" />
     <Compile Include="TestInterpretOptions.cs" />
+    <Compile Include="TestRegexBuffer.cs" />
     <Compile Include="TestRegexRef.cs" />
   </ItemGroup>
   <ItemGroup>
