@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,7 +12,7 @@ namespace RegexTest
             Parse(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
         }
 
-        public ArrayList Items { get; } = new ArrayList();
+        public List<IRegexItem> Items { get; } = new List<IRegexItem>();
 
         public string ToString(int indent)
         {
