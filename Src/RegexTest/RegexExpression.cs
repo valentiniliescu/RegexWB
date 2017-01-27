@@ -6,9 +6,9 @@ namespace RegexTest
 {
     public sealed class RegexExpression : IRegexItem
     {
-        public RegexExpression(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        public RegexExpression(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
-            Parse(buffer, expressionLookup);
+            Parse(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
         }
 
         public ArrayList Items { get; } = new ArrayList();
@@ -60,10 +60,10 @@ namespace RegexTest
                 buffer.MoveNext();
         }
 
-        private void Parse(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private void Parse(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             while (!buffer.AtEnd)
-                if (buffer.IgnorePatternWhitespace &&
+                if (ignorePatternWhitespace &&
                     (buffer.Current == ' ' ||
                      buffer.Current == '\r' ||
                      buffer.Current == '\n' ||
@@ -73,7 +73,7 @@ namespace RegexTest
                     switch (buffer.Current)
                     {
                         case '(':
-                            Items.Add(new RegexCapture(buffer, expressionLookup));
+                            Items.Add(new RegexCapture(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture));
                             break;
 
                         case ')':
@@ -97,7 +97,7 @@ namespace RegexTest
                             break;
 
                         case '#':
-                            if (buffer.IgnorePatternWhitespace)
+                            if (ignorePatternWhitespace)
                                 EatComment(buffer);
                             else
                                 Items.Add(new RegexCharacter(buffer, expressionLookup));

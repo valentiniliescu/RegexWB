@@ -1553,11 +1553,11 @@ namespace RegexTest
         {
             SaveValues();
 
-            _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
+            _buffer = new RegexBuffer(_regexText.Text);
             _expressionLookup = new ExpressionLookup();
             try
             {
-                var exp = new RegexExpression(_buffer, _expressionLookup);
+                var exp = new RegexExpression(_buffer, _expressionLookup, _ignoreWhitespace.Checked, _explicitCapture.Checked);
 
                 _output.Text = exp.ToString(0);
             }
@@ -1898,7 +1898,7 @@ Regex r = new Regex(
         {
             if (_bufferDirty)
             {
-                _buffer = new RegexBuffer(_regexText.Text, CreateRegexOptions());
+                _buffer = new RegexBuffer(_regexText.Text);
                 _expressionLookup = new ExpressionLookup();
                 _bufferDirty = false;
             }
@@ -1913,7 +1913,7 @@ Regex r = new Regex(
             UpdateBuffer();
             try
             {
-                new RegexExpression(_buffer, _expressionLookup);
+                new RegexExpression(_buffer, _expressionLookup, _ignoreWhitespace.Checked, _explicitCapture.Checked);
             }
             catch (Exception e)
             {

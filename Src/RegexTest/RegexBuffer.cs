@@ -1,5 +1,4 @@
 using System;
-using System.Text.RegularExpressions;
 
 namespace RegexTest
 {
@@ -10,12 +9,9 @@ namespace RegexTest
     {
         private readonly string _expression;
 
-        private readonly RegexOptions _regexOptions;
-
-        public RegexBuffer(string expression, RegexOptions regexOptions = RegexOptions.None)
+        public RegexBuffer(string expression)
         {
             _expression = expression;
-            _regexOptions = regexOptions;
         }
 
         public char Current
@@ -37,10 +33,6 @@ namespace RegexTest
         public int ErrorLocation { get; set; } = -1;
 
         public int ErrorLength { get; set; } = -1;
-
-        public bool IgnorePatternWhitespace => (_regexOptions & RegexOptions.IgnorePatternWhitespace) != 0;
-
-        public bool ExplicitCapture => (_regexOptions & RegexOptions.ExplicitCapture) != 0;
 
         public void MoveNext()
         {

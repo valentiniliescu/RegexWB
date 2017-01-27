@@ -21,19 +21,6 @@ namespace RegexWorkbench.Tests
             regexBuffer.String.Should().Be(expression);
             regexBuffer.ErrorLocation.Should().Be(-1);
             regexBuffer.ErrorLength.Should().Be(-1);
-            regexBuffer.IgnorePatternWhitespace.Should().BeFalse();
-            regexBuffer.ExplicitCapture.Should().BeFalse();
-        }
-
-        [TestMethod]
-        public void ConstructorWithRegexOptions()
-        {
-            var expression = "something";
-            var regexOptions = RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture;
-            var regexBuffer = new RegexBuffer(expression, regexOptions);
-
-            regexBuffer.IgnorePatternWhitespace.Should().BeTrue();
-            regexBuffer.ExplicitCapture.Should().BeTrue();
         }
 
         [TestMethod]

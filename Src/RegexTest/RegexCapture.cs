@@ -25,7 +25,7 @@ namespace RegexTest
             OptionNames.Add("-x", "Ignore Whitespace Off");
         }
 
-        public RegexCapture(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        public RegexCapture(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             _startLocation = buffer.Offset;
             buffer.MoveNext();
@@ -37,30 +37,30 @@ namespace RegexTest
             // we need to decode what comes after it.
             if (buffer.Current == '?')
             {
-                var decoded = CheckNamed(buffer, expressionLookup);
+                var decoded = CheckNamed(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 if (!decoded)
-                    decoded = CheckBalancedGroup(buffer, expressionLookup);
+                    decoded = CheckBalancedGroup(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 if (!decoded)
-                    decoded = CheckNonCapturing(buffer, expressionLookup);
+                    decoded = CheckNonCapturing(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 if (!decoded)
                     decoded = CheckOptions(buffer);
 
                 if (!decoded)
-                    decoded = CheckLookahead(buffer, expressionLookup);
+                    decoded = CheckLookahead(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 if (!decoded)
-                    decoded = CheckNonBacktracking(buffer, expressionLookup);
+                    decoded = CheckNonBacktracking(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 if (!decoded)
-                    CheckConditional(buffer, expressionLookup);
+                    CheckConditional(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
             }
             else
                 // plain old capture...
             {
-                if (!HandlePlainOldCapture(buffer, expressionLookup))
+                if (!HandlePlainOldCapture(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture))
                     throw new Exception(
                         string.Format("Unrecognized capture: {0}", buffer.String));
             }
@@ -91,20 +91,20 @@ namespace RegexTest
             buffer.MoveNext(); // eat closing parenthesis
         }
 
-        private bool HandlePlainOldCapture(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool HandlePlainOldCapture(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             // we're already at the expression. Just create a new
             // expression, and make sure that we're at a ")" when 
             // we're done
-            if (buffer.ExplicitCapture)
+            if (explicitCapture)
                 _description = "Non-capturing Group";
 
-            _expression = new RegexExpression(buffer, expressionLookup);
+            _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
             CheckClosingParen(buffer);
             return true;
         }
 
-        private bool CheckNamed(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool CheckNamed(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             Regex regex;
             Match match;
@@ -126,7 +126,7 @@ namespace RegexTest
 
                 // advance buffer to the rest of the expression
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexExpression(buffer, expressionLookup);
+                _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -134,7 +134,7 @@ namespace RegexTest
             return false;
         }
 
-        private bool CheckNonCapturing(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool CheckNonCapturing(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             // Look for non-capturing ?:
 
@@ -150,7 +150,7 @@ namespace RegexTest
                 _description = "Non-capturing Group";
 
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexExpression(buffer, expressionLookup);
+                _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -159,7 +159,7 @@ namespace RegexTest
         }
 
 
-        private bool CheckBalancedGroup(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool CheckBalancedGroup(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             // look for ?<Name1-Name2> or ?'Name1-Name2' syntax...
             // look for ?<Name> or ?'Name' syntax...
@@ -179,7 +179,7 @@ namespace RegexTest
             {
                 _description = string.Format("Balancing Group <{0}>-<{1}>", match.Groups["Name1"], match.Groups["Name2"]);
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexExpression(buffer, expressionLookup);
+                _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
                 CheckClosingParen(buffer);
                 return true;
             }
@@ -209,7 +209,7 @@ namespace RegexTest
             return false;
         }
 
-        private bool CheckLookahead(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool CheckLookahead(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             var regex = new Regex(@"
 				        ^                         # anchor to start of string
@@ -241,14 +241,14 @@ namespace RegexTest
                         break;
                 }
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexExpression(buffer, expressionLookup);
+                _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
                 CheckClosingParen(buffer);
                 return true;
             }
             return false;
         }
 
-        private bool CheckNonBacktracking(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private bool CheckNonBacktracking(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             // Look for non-backtracking sub-expression ?>
 
@@ -264,7 +264,7 @@ namespace RegexTest
                 _description = "Non-backtracking subexpressio";
 
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexExpression(buffer, expressionLookup);
+                _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
 
                 CheckClosingParen(buffer);
                 return true;
@@ -272,7 +272,7 @@ namespace RegexTest
             return false;
         }
 
-        private void CheckConditional(RegexBuffer buffer, ExpressionLookup expressionLookup)
+        private void CheckConditional(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
             // Look for conditional (?(name)yesmatch|nomatch)
             // (name can also be an expression)
@@ -289,7 +289,7 @@ namespace RegexTest
                 _description = "Conditional Subexpression";
 
                 buffer.MoveBy(match.Groups["Rest"].Index);
-                _expression = new RegexConditional(buffer, expressionLookup);
+                _expression = new RegexConditional(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
             }
         }
 
