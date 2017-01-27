@@ -4,11 +4,20 @@ namespace RegexTest
 {
     public sealed class RegexQuantifier : IRegexItem
     {
-        private readonly string _description;
+        private string _description;
 
         public RegexQuantifier(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
+
+            Parse(buffer);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
+        }
+
+        private void Parse(RegexBuffer buffer)
+        {
             buffer.MoveNext();
 
             Regex regex;
@@ -41,8 +50,6 @@ namespace RegexTest
             {
                 _description = "missing '}' in quantifier";
             }
-            int endLocation = buffer.Offset - 1;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
         }
 
         public string ToString(int offset)

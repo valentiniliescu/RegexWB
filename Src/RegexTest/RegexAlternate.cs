@@ -5,9 +5,15 @@ namespace RegexTest
         public RegexAlternate(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             int startLocation = buffer.Offset;
-            int endLocation = buffer.Offset;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLocation, endLocation));
 
+            Parse(buffer);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLocation, endLocation));
+        }
+
+        private void Parse(RegexBuffer buffer)
+        {
             buffer.MoveNext(); // skip "|"
         }
 

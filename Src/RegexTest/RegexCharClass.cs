@@ -5,12 +5,20 @@ namespace RegexTest
     public sealed class RegexCharClass : IRegexItem
     {
         //RegexExpression expression;
-        private readonly string _description;
+        private string _description;
 
         public RegexCharClass(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
 
+            Parse(buffer);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
+        }
+
+        private void Parse(RegexBuffer buffer)
+        {
             buffer.MoveNext();
 
             Regex regex;
@@ -33,8 +41,6 @@ namespace RegexTest
             {
                 _description = "missing ']' in character class";
             }
-            int endLocation = buffer.Offset - 1;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation));
         }
 
         public string ToString(int offset)

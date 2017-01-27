@@ -10,6 +10,15 @@ namespace RegexTest
         public RegexCharacter(RegexBuffer buffer, ExpressionLookup expressionLookup)
         {
             var startLoc = buffer.Offset;
+
+            Parse(buffer);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation), _character.Length == 1);
+        }
+
+        private void Parse(RegexBuffer buffer)
+        {
             var quantifier = false;
 
             switch (buffer.Current)
@@ -72,8 +81,6 @@ namespace RegexTest
                     _character += " (non-greedy)";
                     buffer.MoveNext();
                 }
-            int endLocation = buffer.Offset - 1;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), startLoc, endLocation), _character.Length == 1);
         }
 
         private static readonly Hashtable Escaped = new Hashtable();

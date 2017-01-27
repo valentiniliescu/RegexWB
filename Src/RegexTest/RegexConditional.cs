@@ -4,9 +4,9 @@ namespace RegexTest
 {
     public sealed class RegexConditional : IRegexItem
     {
-        private readonly RegexExpression _expression;
+        private RegexExpression _expression;
         private readonly int _startLocation;
-        private readonly RegexExpression _yesNo;
+        private RegexExpression _yesNo;
 
         // Handle (?(expression)yes|no)
         // when we get called, we're pointing to the first character of the expression
@@ -14,14 +14,20 @@ namespace RegexTest
         {
             _startLocation = buffer.Offset;
 
+            Parse(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
+        }
+
+        private void Parse(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace,
+            bool explicitCapture)
+        {
             _expression = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
             CheckClosingParen(buffer);
 
             _yesNo = new RegexExpression(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
             CheckClosingParen(buffer);
-
-            int endLocation = buffer.Offset - 1;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
         }
 
         private void CheckClosingParen(RegexBuffer buffer)

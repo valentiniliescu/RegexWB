@@ -27,11 +27,21 @@ namespace RegexTest
 
         public RegexCapture(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace, bool explicitCapture)
         {
-            _startLocation = buffer.Offset;
-            buffer.MoveNext();
-
             // we're not in a series of normal characters, so clear
             expressionLookup.ClearInSeries();
+
+            _startLocation = buffer.Offset;
+
+            Parse(buffer, expressionLookup, ignorePatternWhitespace, explicitCapture);
+
+            int endLocation = buffer.Offset - 1;
+            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
+        }
+
+        private void Parse(RegexBuffer buffer, ExpressionLookup expressionLookup, bool ignorePatternWhitespace,
+            bool explicitCapture)
+        {
+            buffer.MoveNext();
 
             // if the first character of the capture is a '?',
             // we need to decode what comes after it.
@@ -64,8 +74,6 @@ namespace RegexTest
                     throw new Exception(
                         string.Format("Unrecognized capture: {0}", buffer.String));
             }
-            int endLocation = buffer.Offset - 1;
-            expressionLookup.AddLookup(new RegexRef(this.ToString(0), _startLocation, endLocation));
         }
 
         private void CheckClosingParen(RegexBuffer buffer)
