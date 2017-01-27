@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -1705,15 +1705,10 @@ namespace RegexTest
                 _regexText.Text.Replace("\"", "\"\"") +
                 "\", \r\n";
 
-            var optionStrings = new ArrayList();
-            var options = CreateRegexOptions();
-
-            foreach (RegexOptions option in Enum.GetValues(typeof(RegexOptions)))
-                if ((options & option) != 0)
-                    optionStrings.Add("RegexOptions." + Enum.GetName(typeof(RegexOptions), option));
+            var optionStrings = GetRegexOptionStrings(CreateRegexOptions());
 
             if (optionStrings.Count != 0)
-                s += string.Join(" | \r\n", (string[]) optionStrings.ToArray(typeof(string)));
+                s += string.Join(" | \r\n", optionStrings);
             else
                 s += " (RegexOptions) 0";
             s += ");";
@@ -1874,23 +1869,28 @@ Regex r = new Regex(
             s += string.Join("\" + _ \r\n\"", lines);
             s += "\" _\r\n";
 
-            var optionStrings = new ArrayList();
-            var options = CreateRegexOptions();
-
-            foreach (RegexOptions option in Enum.GetValues(typeof(RegexOptions)))
-                if ((options & option) != 0)
-                    optionStrings.Add("RegexOptions." + Enum.GetName(typeof(RegexOptions), option));
+            var optionStrings = GetRegexOptionStrings(CreateRegexOptions());
 
             if (optionStrings.Count != 0)
             {
                 s += ", ";
-                s += string.Join(" Or ", (string[]) optionStrings.ToArray(typeof(string)));
+                s += string.Join(" Or ", optionStrings);
             }
 
             s += ")";
 
 
             return s;
+        }
+
+        private static List<string> GetRegexOptionStrings(RegexOptions regexOptions)
+        {
+            var optionStrings = new List<string>();
+
+            foreach (RegexOptions option in Enum.GetValues(typeof(RegexOptions)))
+                if ((regexOptions & option) != 0)
+                    optionStrings.Add("RegexOptions." + Enum.GetName(typeof(RegexOptions), option));
+            return optionStrings;
         }
 
 
