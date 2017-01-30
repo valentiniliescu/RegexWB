@@ -152,7 +152,6 @@ namespace RegexTest
         private MenuItem _pasteFromCSharp;
         private MenuItem _pasteMenuItem;
 
-        private int _regexInsertionPoint = -1;
         private TextBoxHoverable _regexText;
         private Button _replace;
         private TextBox _replaceString;
@@ -376,7 +375,6 @@ namespace RegexTest
             this._regexText.Size = new System.Drawing.Size(856, 184);
             this._regexText.TabIndex = 0;
             this._regexText.Text = "\\((?<AreaCode>\\d{3})\\)";
-            this._regexText.Leave += new System.EventHandler(this.RegexText_Leave);
             this._regexText.HoverDetail += new RegexTest.HoverDetailEventHandler(this.RegexText_HoverDetail);
             this._regexText.TextChanged += new System.EventHandler(this.RegexText_TextChanged_1);
             this._regexText.Enter += new System.EventHandler(this.RegexText_Enter);
@@ -1727,11 +1725,6 @@ Regex r = new Regex(
 			#endif
         }
 
-        private void RegexText_Leave(object sender, EventArgs e)
-        {
-            _regexInsertionPoint = _regexText.SelectionStart;
-        }
-
         // this routine is called by both the Add Item menu and the
         // pick on the context menu.
         // Rather than figure out which, we just update both. 
@@ -1809,14 +1802,14 @@ Regex r = new Regex(
             if (match.Success)
             {
                 var insert = match.Groups["Placeholder"].ToString();
-                _regexInsertionPoint = _regexText.SelectionStart;
+                var regexInsertionPoint = _regexText.SelectionStart;
                 string start;
                 string end;
 
                 //try
                 //{
-                start = _regexText.Text.Substring(0, _regexInsertionPoint);
-                end = _regexText.Text.Substring(_regexInsertionPoint);
+                start = _regexText.Text.Substring(0, regexInsertionPoint);
+                end = _regexText.Text.Substring(regexInsertionPoint);
                 //}
                 //catch (Exception)
                 //	{
@@ -1830,12 +1823,12 @@ Regex r = new Regex(
                 {
                     var g = match.Groups["Select"];
                     _regexText.SelectionStart =
-                        _regexInsertionPoint + g.Index;
+                        regexInsertionPoint + g.Index;
                     _regexText.SelectionLength = g.Length;
                 }
                 else
                 {
-                    _regexText.SelectionStart = _regexInsertionPoint;
+                    _regexText.SelectionStart = regexInsertionPoint;
                 }
                 _regexText.Focus();
             }
