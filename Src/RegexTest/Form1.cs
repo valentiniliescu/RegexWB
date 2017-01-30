@@ -23,7 +23,7 @@ namespace RegexTest
         private RegexBuffer _buffer;
         private ExpressionLookup _expressionLookup;
         private bool _bufferDirty = true;
-        private Button _button1;
+        private Button _execute;
         private SizeF _characterSize;
         private CheckBox _compiled;
         private TextBox _compileTime;
@@ -230,7 +230,7 @@ namespace RegexTest
             this._strings = new System.Windows.Forms.TextBox();
             this._label2 = new System.Windows.Forms.Label();
             this._ignoreWhitespace = new System.Windows.Forms.CheckBox();
-            this._button1 = new System.Windows.Forms.Button();
+            this._execute = new System.Windows.Forms.Button();
             this._label3 = new System.Windows.Forms.Label();
             this._output = new System.Windows.Forms.TextBox();
             this._ignoreCase = new System.Windows.Forms.CheckBox();
@@ -491,14 +491,14 @@ namespace RegexTest
             this._toolTip1.SetToolTip(this._ignoreWhitespace, "Ignore any whitespace or comments in the text");
             this._ignoreWhitespace.CheckedChanged += new System.EventHandler(this.IgnoreWhitespace_CheckedChanged);
             // 
-            // button1
+            // Execute
             // 
-            this._button1.Location = new System.Drawing.Point(32, 312);
-            this._button1.Name = "_button1";
-            this._button1.TabIndex = 5;
-            this._button1.Text = "Execute";
-            this._toolTip1.SetToolTip(this._button1, "Execute this regex");
-            this._button1.Click += new System.EventHandler(this.button1_Click);
+            this._execute.Location = new System.Drawing.Point(32, 312);
+            this._execute.Name = "_execute";
+            this._execute.TabIndex = 5;
+            this._execute.Text = "Execute";
+            this._toolTip1.SetToolTip(this._execute, "Execute this regex");
+            this._execute.Click += new System.EventHandler(this.Execute_Click);
             // 
             // label3
             // 
@@ -1394,7 +1394,7 @@ namespace RegexTest
             this.Controls.Add(this._oneString);
             this.Controls.Add(this._split);
             this.Controls.Add(this._interpret);
-            this.Controls.Add(this._button1);
+            this.Controls.Add(this._execute);
             this.Controls.Add(this._label1);
             this.Controls.Add(this._label2);
             this.Controls.Add(this._label3);
@@ -1457,7 +1457,7 @@ namespace RegexTest
             return new Regex(_regexText.Text, regOp);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Execute_Click(object sender, EventArgs e)
         {
             SaveValues();
 
